@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+#not_found_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: #7affd4;
+  font-family: "Great Vibes", cursive;
+  font-size: 4em;
+  letter-spacing: 2px;
+  color: #ffa6ca;
+}
+#not_found_container h1, #not_found_container h2 {
+  margin: 50px;
+}
+
+/*# sourceMappingURL=NotFound.css.map */

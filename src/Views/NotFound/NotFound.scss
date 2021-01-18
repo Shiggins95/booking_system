@@ -1,0 +1,15 @@
+@import "../../StyleDefaults/_mixins";
+@import "../../StyleDefaults/_variables";
+#not_found_container{
+    @include flexCenterCol;
+    width: 100vw;
+    height: 100vh;
+    background: $primary_color;
+    font-family: $fancy_font;
+    font-size: 4em;
+    letter-spacing: 2px;
+    color: $secondary_color;
+    h1, h2 {
+        margin: 50px;
+    }
+}
