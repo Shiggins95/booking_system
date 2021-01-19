@@ -1,11 +1,48 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 #services_container {
   width: 100%;
-  height: 95vh;
+  height: 100vh;
   background: orange;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#services_container .left, #services_container .right {
+  width: 50%;
+  height: 100%;
+}
+#services_container .left {
+  background: url("../../Assets/Images/Hairdressing.jpeg") no-repeat right center;
+  background-size: cover;
+}
+#services_container .right {
+  color: #ffa6ca;
+  display: flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #7affd4;
+}
+#services_container .right h1 {
+  font-size: 5em;
+}
+#services_container .right a {
+  margin-top: 50px;
+  text-decoration: none;
+  padding: 20px;
+  border: none;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #7affd4;
+  font-weight: 700;
+  background: #ffa6ca;
+}
+#services_container .right a:hover {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=Services.css.map */

@@ -3,7 +3,38 @@
 
 #services_container {
   width: 100%;
-  height: 95vh;
+  height: 100vh;
   background: orange;
   @include flexCenterRow;
+  .left, .right {
+    width: 50%;
+    height: 100%;
+  }
+  .left {
+    background: url('../../Assets/Images/Hairdressing.jpeg') no-repeat right center;
+    background-size: cover;
+  }
+  .right {
+    color: $secondary_color;
+    display: flex;
+    @include flexCenterCol;
+    background: $primary_color;
+    h1 {
+      font-size: 5em;
+    }
+    a {
+      margin-top: 50px;
+      text-decoration: none;
+      padding: 20px;
+      border: none;
+      font-size: 2em;
+      @include flexCenterCol;
+      color: $primary_color;
+      font-weight: 700;
+      background: $secondary_color;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
 }
