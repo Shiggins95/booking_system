@@ -5,7 +5,7 @@ import Services from './Services';
 import Gallery from './Gallery';
 
 const HomeContainer = () => {
-  console.log('home');
+  console.log('home test');
   return (
     <div id="home_container">
       <Showcase />
