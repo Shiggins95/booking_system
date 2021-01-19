@@ -1,14 +1,8 @@
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 import './NotFound.css';
+import { MatchProps } from '../../Types';
 
-interface NotFoundProps {
-    location: string
-}
-
-interface Props extends RouteComponentProps<NotFoundProps> {}
-
-const NotFound = ({ location: { pathname } }: Props) => (
+const NotFound = ({ location: { pathname } }: MatchProps) => (
   <div id="not_found_container">
     <h2>Oops...</h2>
     <h2>

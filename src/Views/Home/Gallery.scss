@@ -1,0 +1,40 @@
+@import "../../StyleDefaults/_mixins";
+@import "../../StyleDefaults/_variables";
+
+#gallery_container {
+  width: 100vw;
+  height: 100vh;
+  background: darkgreen;
+  @include flexCenterRow;
+  .left, .right {
+    width: 50%;
+    height: 100%;
+  }
+  .left {
+    background: $primary_color;
+    color: $secondary_color;
+    display: flex;
+    @include flexCenterCol;
+    h1 {
+      font-size: 5em;
+    }
+    a {
+      margin-top: 50px;
+      text-decoration: none;
+      padding: 20px;
+      border: none;
+      font-size: 2em;
+      @include flexCenterCol;
+      color: $primary_color;
+      font-weight: 700;
+      background: $secondary_color;
+      &:hover{
+        cursor: pointer;
+      }
+    }
+  }
+  .right {
+    background: url('../../Assets/Images/Beauty.jpeg') no-repeat left center;
+    background-size: cover;
+  }
+}

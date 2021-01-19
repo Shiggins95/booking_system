@@ -3,8 +3,7 @@
 #not_found_container{
     @include flexCenterCol;
     width: 100vw;
-    height: 100vh;
-    background: $primary_color;
+    height: 100%;
     font-family: $fancy_font;
     font-size: 4em;
     letter-spacing: 2px;

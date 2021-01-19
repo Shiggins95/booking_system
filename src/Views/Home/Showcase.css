@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+#showcase {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  margin-top: -5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+#showcase .left, #showcase .right {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-evenly;
+}
+#showcase .left .title {
+  color: #ffa6ca;
+  width: 80%;
+  border-bottom: 2px solid #ffa6ca;
+  padding-bottom: 10px;
+}
+#showcase .left .title h1 {
+  font-family: "Great Vibes", cursive;
+  font-size: 5em;
+}
+#showcase .left .title h2 {
+  font-style: italic;
+  font-size: 2em;
+}
+#showcase .left .enquire {
+  width: 80%;
+}
+#showcase .left .enquire button {
+  padding: 20px;
+  border: none;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #7affd4;
+  font-weight: 700;
+  background: #ffa6ca;
+}
+#showcase .left .enquire button:hover {
+  cursor: pointer;
+}
+#showcase .right {
+  background: url("../../Assets/Images/scissors.jpeg") no-repeat right center;
+  background-size: cover;
+}
+
+@keyframes zoom {
+  from {
+    margin-left: 100vh;
+  }
+  to {
+    margin-left: 0;
+  }
+}
+
+/*# sourceMappingURL=Showcase.css.map */

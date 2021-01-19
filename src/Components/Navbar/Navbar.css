@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+#navigation_bar {
+  position: fixed;
+  width: 100vw;
+  height: 5vh;
+  background: #cbffee;
+  color: #ffa6ca;
+  font-weight: bold;
+  letter-spacing: 2px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  transition: 0.3s ease;
+  z-index: 10;
+}
+#navigation_bar a {
+  color: inherit;
+  text-decoration: none;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#navigation_bar div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+}
+#navigation_bar .left {
+  grid-column: 1/6;
+}
+#navigation_bar .right {
+  grid-column: 10/11;
+}
+#navigation_bar .selected {
+  border-bottom: 2px solid #ffa6ca;
+}
+
+.hidden {
+  top: -5vh;
+}
+
+.visible {
+  top: 0;
+}
+
+/*# sourceMappingURL=Navbar.css.map */
