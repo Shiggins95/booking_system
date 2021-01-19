@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+#services_container {
+  width: 100%;
+  height: 95vh;
+  background: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*# sourceMappingURL=Services.css.map */

@@ -1,5 +1,17 @@
-*{
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+.top {
+  height: 5vh;
+}
+
+.main {
+  min-height: 95vh;
+  background: #7affd4;
+}
+
+/*# sourceMappingURL=App.css.map */
