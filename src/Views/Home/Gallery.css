@@ -1,11 +1,48 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 #gallery_container {
   width: 100vw;
-  height: 95vh;
+  height: 100vh;
   background: darkgreen;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+#gallery_container .left, #gallery_container .right {
+  width: 50%;
+  height: 100%;
+}
+#gallery_container .left {
+  background: #7affd4;
+  color: #ffa6ca;
+  display: flex;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#gallery_container .left h1 {
+  font-size: 5em;
+}
+#gallery_container .left a {
+  margin-top: 50px;
+  text-decoration: none;
+  padding: 20px;
+  border: none;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #7affd4;
+  font-weight: 700;
+  background: #ffa6ca;
+}
+#gallery_container .left a:hover {
+  cursor: pointer;
+}
+#gallery_container .right {
+  background: url("../../Assets/Images/Beauty.jpeg") no-repeat left center;
+  background-size: cover;
 }
 
 /*# sourceMappingURL=Gallery.css.map */

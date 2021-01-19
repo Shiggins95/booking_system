@@ -10,6 +10,7 @@
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   transition: 0.3s ease;
+  z-index: 10;
 }
 #navigation_bar a {
   color: inherit;

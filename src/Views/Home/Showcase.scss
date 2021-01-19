@@ -1,10 +1,61 @@
 @import "../../StyleDefaults/_mixins";
 @import "../../StyleDefaults/_variables";
-
 #showcase {
   width: 100%;
   height: 100vh;
+  overflow: hidden;
   margin-top: -5vh;
-  background: red;
   @include flexCenterRow;
+  position: relative;
+  .left, .right {
+    width: 50%;
+    height: 100%;
+    @include flexCenterCol;
+    justify-content: space-evenly;
+  }
+  .left {
+    .title {
+      color: $secondary_color;
+      width: 80%;
+      border-bottom: 2px solid $secondary_color;
+      padding-bottom: 10px;
+      h1 {
+        font-family: $fancy_font;
+        font-size: 5em;
+      }
+
+      h2 {
+        font-style: italic;
+        font-size: 2em;
+      }
+    }
+    .enquire {
+      width: 80%;
+      button {
+        padding: 20px;
+        border: none;
+        font-size: 2em;
+        @include flexCenterCol;
+        color: $primary_color;
+        font-weight: 700;
+        background: $secondary_color;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .right {
+    background: url('../../Assets/Images/scissors.jpeg') no-repeat right center;
+    background-size: cover;
+  }
+}
+
+@keyframes zoom {
+  from {
+    margin-left: 100vh;
+  }
+  to {
+    margin-left: 0;
+  }
 }
