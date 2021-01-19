@@ -12,9 +12,7 @@ const Gallery = () => (
       <h2>FROM OUR HIGHLY TRAINED TECHNICIANS</h2>
       <Link to="/book">ENQUIRE NOW</Link>
     </div>
-    <div className="right">
-      right
-    </div>
+    <div className="right" />
   </div>
 );
 
