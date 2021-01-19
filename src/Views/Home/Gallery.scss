@@ -1,0 +1,9 @@
+@import "../../StyleDefaults/_mixins";
+@import "../../StyleDefaults/_variables";
+
+#gallery_container {
+  width: 100vw;
+  height: 95vh;
+  background: darkgreen;
+  @include flexCenterRow;
+}

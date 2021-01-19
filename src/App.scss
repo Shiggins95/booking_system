@@ -1,0 +1,17 @@
+@import "./StyleDefaults/_mixins";
+@import "./StyleDefaults/_variables";
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.top {
+  height: 5vh;
+}
+
+.main {
+  min-height: 95vh;
+  background: $primary_color;
+}

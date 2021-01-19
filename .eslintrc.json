@@ -22,7 +22,9 @@
     "rules": {
         "react/jsx-filename-extension": "off",
         "no-use-before-define": "off",
-        "import/extensions": "off"
+        "import/extensions": "off",
+        "no-underscore-dangle": "off",
+        "no-console": "off"
     },
     "settings": {
         "import/resolver": {

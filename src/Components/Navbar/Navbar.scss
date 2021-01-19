@@ -1,0 +1,43 @@
+@import "../../StyleDefaults/_mixins";
+@import "../../StyleDefaults/_variables";
+
+#navigation_bar {
+  position: fixed;
+  width: 100vw;
+  height: 5vh;
+  background: $fourth_color;
+  color: $secondary_color;
+  font-weight: bold;
+  letter-spacing: 2px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  transition: 0.3s ease;
+  a {
+    color: inherit;
+    text-decoration: none;
+    padding: 10px;
+    @include flexCenterRow;
+  }
+  div {
+    @include flexCenterRow;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 100%;
+  }
+  .left {
+    grid-column: 1 / 6;
+  }
+  .right {
+    grid-column: 10 / 11;
+  }
+  .selected {
+    border-bottom: 2px solid $secondary_color;
+  }
+}
+
+.hidden {
+  top: -5vh;
+}
+.visible {
+  top: 0;
+}
