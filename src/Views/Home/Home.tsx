@@ -1,11 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Home.css';
+import { useDispatch } from 'react-redux';
 import Showcase from './Showcase';
 import Services from './Services';
 import Gallery from './Gallery';
+import { _setNavbarClosed } from '../../Redux/actions';
 
 const HomeContainer = () => {
-  console.log('home test');
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(_setNavbarClosed());
+    window.scrollTo(0, 0);
+  }, []);
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollToServices = () => {
     if (!scrollRef.current) {

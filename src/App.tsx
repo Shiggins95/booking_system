@@ -6,10 +6,7 @@ import NotFound from './Views/NotFound/NotFound';
 import './App.css';
 import HomeContainer from './Views/Home/Home';
 import Navbar from './Components/Navbar/Navbar';
-
-export interface RefProps {
-    ref: Object,
-}
+import AvailabilityContainer from './Views/Availability/Availability';
 
 function App() {
   return (
@@ -20,6 +17,7 @@ function App() {
       <div className="main">
         <Switch>
           <Route exact path="/" component={HomeContainer} />
+          <Route exact path="/availability" component={AvailabilityContainer} />
           <Route component={NotFound} />
         </Switch>
       </div>

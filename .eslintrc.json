@@ -26,7 +26,10 @@
         "no-underscore-dangle": "off",
         "no-console": "off",
         "no-await-in-loop": "off",
-        "react/jsx-props-no-spreading": "off"
+        "react/jsx-props-no-spreading": "off",
+        "no-debugger": "off",
+        "no-plusplus": "off",
+        "max-len": ["error", { "code": 120 }]
     },
     "settings": {
         "import/resolver": {
