@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+import { vh } from './Dimensions';
+
 interface NavbarScrollProps {
   open: boolean;
   pathname: string;
@@ -6,13 +8,14 @@ interface NavbarScrollProps {
 }
 export const scrollEvent = ({ open, setOpen, pathname }: NavbarScrollProps): void => {
   if (pathname !== '/') {
+    setOpen(true);
     return;
   }
-  const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+  if (pathname === '/' && window.scrollY <= vh * 0.05) {
+    setOpen(false);
+  }
   const toDisplay: boolean = window.scrollY >= vh * 0.05 && !open;
   const toHide: boolean = window.scrollY === 0 && open;
-  console.log('TD: ', toDisplay);
-  console.log('TH: ', toHide);
   if (toDisplay) {
     setOpen(true);
   } else if (toHide) {
