@@ -1,70 +1,77 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react';
-import { useSprings, animated, useTransition } from 'react-spring';
-import { vw } from '../../Helpers/Dimensions';
+/* eslint-disable no-unused-vars, max-len, react/destructuring-assignment */
+import React, { useState } from 'react';
+import { animated, useTransition } from 'react-spring';
 
-interface BookingsComponentProps {
-    bookings: Object[]
+function TestScreen1() {
+  return <div>Im Number 1</div>;
 }
-interface DateObject {
-    date: string;
-    id: number;
+
+function TestScreen2() {
+  return <div>Im number 2</div>;
 }
-const BookingsComponent = ({ bookings }: BookingsComponentProps) => {
-  const [dates, setDates] = useState<DateObject[]>([]);
-  const currentColor = useRef(0);
-  const index = useRef(0);
-  const colors: string[] = ['CB48B7', '2E2D4D', '337357', '6D9F71', 'EB7BC0', 'EED5C2', 'E94F37'];
-  useEffect(() => {
-    const _dates: DateObject[] = [];
-    const datesRaw: String[] = [];
-    const date = new Date();
-    let currentIncrement = 0;
-    for (let i = 0; i < 5; i++) {
-      const currentDate = date;
-      currentDate.setDate(currentDate.getDate() + currentIncrement);
-      _dates.push(
-        { date: currentDate.toUTCString().substring(0, 16), id: currentIncrement },
-      );
-      datesRaw.push(currentDate.toUTCString().substring(0, 16));
-      currentIncrement += 1;
-    }
-    setDates(_dates);
-    console.log(datesRaw);
-  }, []);
-  const [springs, set] = useSprings(dates.length, (i) => ({ x: vw * i, display: 'block' }));
-  console.log(springs);
-  const handleClick = (value: number) => {
-    index.current += value;
-    console.log(index.current);
-    debugger;
-    // @ts-ignore
-    // eslint-disable-next-line consistent-return
-    set((i) => {
-      if (i < index.current || i > index.current + 1) return { display: 'none' };
-      const x = ((i - index.current) * vw) * value;
-      return { display: 'block', x };
-    });
-  };
-  const randomColor = () => {
-    const currentColorIndex = currentColor.current === colors.length - 1 ? 0 : currentColor.current + 1;
-    currentColor.current = currentColorIndex;
-    return colors[currentColorIndex];
-  };
+
+function TestScreen3() {
+  return <div>Im number 3</div>;
+}
+
+interface State {
+  index: number;
+  direction: string;
+}
+
+const BookingsComponent = () => {
+  const testScreens = [TestScreen1, TestScreen2, TestScreen3];
+  const [state, setState] = useState<State>({
+    index: 0,
+    direction: 'left',
+  });
+
+  const transitions = useTransition(state.index, null, {
+    from: { transform: state.direction === 'left' ? 'translate3d(100vw, 0 ,0)' : 'translate3d(-100vw, 0 ,0)' },
+    enter: { transform: 'translate3d(0, 0, 0)' },
+    leave: { transform: state.direction === 'left' ? 'translate3d(-100vw, 0, 0)' : 'translate3d(100vw, 0, 0)' },
+  });
+
+  const click1 = () => setState({
+    index: state.index === 2 ? 0 : state.index + 1,
+    direction: 'left',
+  });
+
+  const click2 = () => setState({
+    index: state.index === 0 ? 2 : state.index - 1,
+    direction: 'right',
+  });
+
+  const { index } = state;
+
   return (
-    <div>
-      <button type="button" onClick={() => handleClick(1)} value={1}>Click 1</button>
-      <button type="button" onClick={() => handleClick(-1)} value={-1}>Click -1</button>
-      {
-          springs.map(({ x, display }, i) => (
-            // eslint-disable-next-line max-len,react/no-array-index-key
-            <animated.div key={i} style={{ display, transform: x.interpolate((y) => `translateX(${y}px)`), background: `#${randomColor()}` }}>
-              {i}
-            </animated.div>
-          ))
-      }
+    <div id="bookings_component_container">
+      <button type="button" onClick={click1}>click 1</button>
+      <button type="button" onClick={click2}>click 2</button>
+      <div style={{
+        height: '100px', width: '100%', margin: 0, padding: 0, background: 'black',
+      }}
+      >
+        {transitions.map(({ item, key, props }, i) => (
+          <animated.div style={{
+            ...props,
+            position: 'absolute',
+            width: '100%',
+            height: '100px',
+            background: 'black',
+            color: 'white',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: 0,
+            padding: 0,
+          }}
+          >
+            {React.createElement(testScreens[index])}
+          </animated.div>
+        ))}
+      </div>
     </div>
   );
 };
-
 export default BookingsComponent;
