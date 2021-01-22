@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+.single_day {
+  width: 100%;
+  height: 100%;
+  background: #7affd4;
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+  padding: 10px 0;
+  justify-items: center;
+  align-content: center;
+  color: #ffa6ca;
+  font-weight: 900;
+}
+.single_day .title {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2px;
+}
+.single_day .time_slots {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  padding: 10px;
+}
+.single_day .time_slots .time_slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #cbffee;
+  border: 1px solid #ffa6ca;
+}
+.single_day .time_slots .time_slot:hover {
+  cursor: pointer;
+}
+.single_day .time_slots .time_slot:active {
+  transform: translateY(1px);
+}
+
+/*# sourceMappingURL=SingleDayStyles.css.map */

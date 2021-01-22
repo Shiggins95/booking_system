@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+.single_week_container {
+  grid-gap: 20px;
+  padding: 1vw 6vw;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 5fr;
+}
+.single_week_container .title {
+  color: #ffa6ca;
+  letter-spacing: 1px;
+  font-weight: 900;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.single_week_container .days_of_week {
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 20px;
+}
+
+/*# sourceMappingURL=SingleWeekStyles.css.map */

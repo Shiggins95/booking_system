@@ -1,0 +1,8 @@
+@import "../../StyleDefaults/mixins";
+@import "../../StyleDefaults/variables";
+
+#availability_container {
+  width: 100vw;
+  background: $primary_color;
+  padding-top: 50px;
+}

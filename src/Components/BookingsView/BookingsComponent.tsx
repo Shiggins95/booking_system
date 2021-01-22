@@ -28,7 +28,7 @@ const BookingsComponent = () => {
     leave: { transform: direction === 'left' ? 'translate3d(-100vw, 0, 0)' : 'translate3d(100vw, 0, 0)' },
   });
 
-  const click1 = () => {
+  const next = () => {
     if (index === Object.keys(dates).length - 1) {
       return;
     }
@@ -38,7 +38,7 @@ const BookingsComponent = () => {
     });
   };
 
-  const click2 = () => {
+  const back = () => {
     if (index === 0) {
       return;
     }
@@ -52,10 +52,10 @@ const BookingsComponent = () => {
     <div id="bookings_component_container">
       <div id="carousel_container">
         <div className="left_button">
-          {index < Object.keys(dates).length - 1 ? <button type="button" onClick={click1}>click 1</button> : null}
+          {index > 0 ? <button type="button" onClick={back}>click 1</button> : null}
         </div>
         <div className="right_button">
-          {index > 0 ? <button type="button" onClick={click2}>click 2</button> : null}
+          {index < Object.keys(dates).length - 1 ? <button type="button" onClick={next}>click 2</button> : null}
         </div>
         {transitions.map(({ item, key, props }, i) => (
           <animated.div

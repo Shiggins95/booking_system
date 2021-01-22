@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import BookingsComponent from '../../Components/BookingsView/BookingsComponent';
 import { DateData, DateMapping } from '../../Redux/reducers/AvailabilityReducer';
-import { _setAvailabilityDates } from '../../Redux/actions';
+import { _setAvailabilityDates, _setNavbarOpen } from '../../Redux/actions';
+import './AvailabilityStyles.css';
 
 const AvailabilityContainer = () => {
   // eslint-disable-next-line no-unused-vars
@@ -39,11 +40,12 @@ const AvailabilityContainer = () => {
       allDates[thisWeek] = getFullWeek(date, thisWeek, today);
     }
 
+    dispatch(_setNavbarOpen());
     dispatch(_setAvailabilityDates({ key: '', data: allDates }));
   }, []);
 
   return (
-    <div className="availability_container">
+    <div id="availability_container">
       <BookingsComponent />
     </div>
   );
