@@ -25,11 +25,15 @@ const Navbar = ({ location: { pathname } }: MatchProps) => {
       dispatch(_setNavbarClosed());
     }
   };
-  useEffect(() => {
-    const scroll = () => scrollEvent({ open, setOpen, pathname });
-    window.addEventListener('scroll', scroll);
-    return () => window.removeEventListener('scroll', scroll);
-  });
+  if (pathname === '/') {
+    useEffect(() => {
+      const scroll = () => scrollEvent({ open, setOpen, pathname });
+      window.addEventListener('scroll', scroll);
+      return () => window.removeEventListener('scroll', scroll);
+    });
+  } else if (!open) {
+    setOpen(true);
+  }
   return (
     <div id="navigation_bar" className={open ? 'visible' : 'hidden'}>
       <div className="left">

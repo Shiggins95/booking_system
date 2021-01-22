@@ -1,0 +1,52 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+#bookings_component_container {
+  width: 100vw;
+  background: red;
+  height: 100vh;
+}
+#bookings_component_container #carousel_container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: black;
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr 5fr 0.5fr 0.5fr;
+}
+#bookings_component_container #carousel_container .left_button {
+  width: 100%;
+  background: orange;
+  grid-column: 1/3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+#bookings_component_container #carousel_container .right_button {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: orange;
+  right: 50px;
+  grid-column: 4/6;
+}
+#bookings_component_container #carousel_container .animated_section {
+  grid-column: 2/5;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+/*# sourceMappingURL=BookingsComponentStyles.css.map */
