@@ -3,29 +3,30 @@
 
 #bookings_component_container {
   width: 100vw;
-  background: red;
-  height: 100vh;
   #carousel_container {
+    background: $fourth_color;
     position: relative;
     height: 300px;
     width: 100%;
     margin: 0;
     padding: 0;
-    background: black;
     display: grid;
-    grid-template-columns: 0.5fr 0.5fr 5fr 0.5fr 0.5fr;
+    grid-template-columns: 5vw 5vw 5fr 5vw 5vw ;
     .left_button {
-      width: 100%;
-      background: orange;
       grid-column: 1 / 3;
-      @include flexCenterCol;
       z-index: 1;
     }
-    .right_button {
+    .right_button, .left_button{
       z-index: 1;
       @include flexCenterCol;
       width: 100%;
-      background: orange;
+      background: $primary_color;
+      color: $secondary_color;
+      .button:hover{
+        cursor: pointer;
+      }
+    }
+    .right_button {
       right: 50px;
       grid-column: 4 / 6;
     }
@@ -34,13 +35,13 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      background: red;
+      background: $fourth_color;
       color: white;
       display: flex;
       justify-content: center;
       align-items: center;
       margin: 0;
-      padding: 0;
+      padding-bottom: 10px;
     }
   }
 }

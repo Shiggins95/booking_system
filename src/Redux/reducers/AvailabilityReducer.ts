@@ -7,14 +7,21 @@ export interface DateData {
     past: boolean;
 }
 
+export interface Booking {
+    date: string;
+    name: string;
+    time: string;
+    id?: number;
+}
+
 export interface AvailabilityReducerState {
     dates: DateMapping;
-    bookings?: Object[]
+    bookings?: Booking[]
 }
 
 export interface PayloadObject {
     key?: string;
-    data?: DateMapping;
+    data?: DateMapping | Booking[];
 }
 
 export interface AvailabilityPayload {
@@ -43,7 +50,8 @@ const AvailabilityReducer = (state: AvailabilityReducerState = startingState, ac
     case 'SET_AVAILABILITY_DATES':
       return { ...state, dates: data };
     case 'SET_AVAILABILITY_BOOKINGS':
-      return { ...state, bookings: data };
+      console.log('DATA: ', data);
+      return { ...state, bookings: payload };
     case 'SET_AVAILABILITY_DATES_KEY':
       if (!key) {
         return state;

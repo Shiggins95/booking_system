@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Stephen Higgins",
+    "time": "09:00",
+    "date": "2021-02-01T20:59:27.662Z"
+  },
+  {
+    "id": 2,
+    "name": "Shannon Flannery",
+    "time": "10:00",
+    "date": "2021-02-01T20:59:27.662Z"
+  },
+  {
+    "id": 1,
+    "name": "Stephen Higgins",
+    "time": "09:00",
+    "date": "2021-02-02T20:59:27.662Z"
+  },
+  {
+    "id": 2,
+    "name": "Shannon Flannery",
+    "time": "13:00",
+    "date": "2021-02-02T20:59:27.662Z"
+  }
+]
