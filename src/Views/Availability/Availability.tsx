@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import BookingsComponent from '../../Components/BookingsView/BookingsComponent';
-import { DateData, DateMapping } from '../../Redux/reducers/AvailabilityReducer';
-import { _setAvailabilityDates, _setNavbarOpen } from '../../Redux/actions';
+import { Booking, DateData, DateMapping } from '../../Redux/reducers/AvailabilityReducer';
+import { _setAvailabilityBookings, _setAvailabilityDates, _setNavbarOpen } from '../../Redux/actions';
 import './AvailabilityStyles.css';
 
 const AvailabilityContainer = () => {
@@ -31,6 +31,17 @@ const AvailabilityContainer = () => {
     return dates;
   };
   useEffect(() => {
+    const getData = async () => {
+      const dataRequest = await fetch('http://localhost:8080/bookings/');
+      const data = await dataRequest.json();
+      return data;
+    };
+    getData().then((res) => {
+      console.log(res);
+      const data = res.map((r: Booking) => r);
+      console.log(data);
+      dispatch(_setAvailabilityBookings(data));
+    });
     const allDates: DateMapping = {};
     const today = new Date();
     today.setHours(23);
@@ -39,7 +50,6 @@ const AvailabilityContainer = () => {
       date.setDate(date.getDate() + (thisWeek * 7));
       allDates[thisWeek] = getFullWeek(date, thisWeek, today);
     }
-
     dispatch(_setNavbarOpen());
     dispatch(_setAvailabilityDates({ key: '', data: allDates }));
   }, []);

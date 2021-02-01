@@ -26,7 +26,6 @@ const Navbar = ({ location: { pathname } }: MatchProps) => {
     }
   };
   useEffect(() => {
-    debugger;
     const scroll = () => scrollEvent({ open, setOpen, pathname });
     window.addEventListener('scroll', scroll);
     return () => window.removeEventListener('scroll', scroll);

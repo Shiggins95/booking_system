@@ -39,5 +39,16 @@
 .single_day .time_slots .time_slot:active {
   transform: translateY(1px);
 }
+.single_day .time_slots .booked {
+  background: #7affd4;
+  border-color: #cbffee;
+  font-weight: normal;
+}
+.single_day .time_slots .booked:hover {
+  cursor: not-allowed;
+}
+.single_day .time_slots .booked:active {
+  transform: translateY(0);
+}
 
 /*# sourceMappingURL=SingleDayStyles.css.map */

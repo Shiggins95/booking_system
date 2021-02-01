@@ -39,5 +39,17 @@
         transform: translateY(1px);
       }
     }
+    .booked {
+      background: $primary_color;
+      //color: $fourth_color;
+      border-color: $fourth_color;
+      font-weight: normal;
+      &:hover{
+        cursor: not-allowed;
+      }
+      &:active{
+        transform: translateY(0);
+      }
+    }
   }
 }
