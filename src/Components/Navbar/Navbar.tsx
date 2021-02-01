@@ -30,7 +30,11 @@ const Navbar = ({ location: { pathname } }: MatchProps) => {
     window.addEventListener('scroll', scroll);
     return () => window.removeEventListener('scroll', scroll);
   });
-  console.log(open);
+  useEffect(() => {
+    if (pathname !== '/') {
+      setOpen(true);
+    }
+  }, []);
   return (
     <div id="navigation_bar" className={open ? 'visible' : 'hidden'}>
       <div className="left">
