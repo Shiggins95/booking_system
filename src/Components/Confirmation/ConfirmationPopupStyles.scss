@@ -1,0 +1,19 @@
+@import "../../StyleDefaults/variables";
+@import "../../StyleDefaults/mixins";
+
+#confirmation_popup_container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  @include flexCenterCol;
+  background: rgba(0,0,0,0.5);
+  z-index: 10;
+  .confirmation_box{
+    width: 70vw;
+    height: 80vh;
+    background: $primary_color;
+    @include flexCenterCol;
+  }
+}

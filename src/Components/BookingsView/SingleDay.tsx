@@ -1,9 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AvailabilityReducerState, Booking, DateData } from '../../Redux/reducers/AvailabilityReducer';
 import { _getDayOfWeek } from '../../Helpers/Date';
 import './SingleDayStyles.css';
 import { ReducerState } from '../../Redux/reducers';
+import { _setAvailabilitySelectedDate } from '../../Redux/actions';
 
 interface SingleDayProps {
     date: DateData;
@@ -12,6 +13,7 @@ interface SingleDayProps {
 
 const SingleDay = ({ date, display }: SingleDayProps) => {
   const slots: number[] = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+  const dispatch = useDispatch();
   const availabilityState: AvailabilityReducerState = useSelector(
     (state: ReducerState): AvailabilityReducerState => state.availability,
   );
@@ -24,8 +26,11 @@ const SingleDay = ({ date, display }: SingleDayProps) => {
         && thisDate.getFullYear() === compareDate.getFullYear()
         && thisDate.getMonth() === compareDate.getMonth();
   }).map((d) => parseInt(d.time.split(':')[0], 10));
-  console.log('curr date', currentDateBookings);
-  console.log('BOOKINGS', bookings);
+  const handleClick = (selectedDate: Date, slot: number): void => {
+    const dateToUse = new Date(selectedDate);
+    dateToUse.setHours(slot);
+    dispatch(_setAvailabilitySelectedDate({ date: dateToUse }));
+  };
   return display ? (
     <div className="single_day">
       <div className="title">
@@ -33,12 +38,14 @@ const SingleDay = ({ date, display }: SingleDayProps) => {
       </div>
       <div className="time_slots">
         {slots.map((slot, index) => (
-          <div
+          <button
             className={`time_slot ${currentDateBookings.indexOf(slot) > -1 ? 'booked' : ''}`}
             key={index}
+            type="button"
+            onClick={() => handleClick(date.date, slot)}
           >
             {slot}
-          </div>
+          </button>
         ))}
       </div>
     </div>
