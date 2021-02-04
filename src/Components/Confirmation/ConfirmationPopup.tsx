@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars, max-len, react/destructuring-assignment */
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { animated, useTransition } from 'react-spring';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ReducerState } from '../../Redux/reducers';
 import './ConfirmationPopupStyles.css';
 import ConfirmationPage from './ConfirmationPage';
-import SingleWeek from '../BookingsView/SingleWeek';
 import PaymentPage from './PaymentPage';
+import { _setAvailabilitySelectedDate } from '../../Redux/actions';
 
 interface StateProps {
     index: number,
@@ -24,6 +26,7 @@ const ConfirmationPopup = () => {
     index: 0,
     direction: 'left',
   });
+  const dispatch = useDispatch();
 
   const { index, direction } = state;
   const transitions = useTransition(index, null, {
@@ -62,9 +65,16 @@ const ConfirmationPopup = () => {
     }
   };
 
+  const close = () => {
+    dispatch(_setAvailabilitySelectedDate({ date: null }));
+  };
+
   return selectedDate === null ? null : (
     <div id="confirmation_popup_container">
       <div className="confirmation_box">
+        <div className="close_button">
+          <FontAwesomeIcon icon={faTimes} onClick={() => close()} />
+        </div>
         {transitions.map(({ item, props }) => (
           <animated.div
             className="animated_section"
