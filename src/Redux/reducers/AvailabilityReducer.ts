@@ -17,11 +17,13 @@ export interface Booking {
 export interface AvailabilityReducerState {
     dates: DateMapping;
     bookings?: Booking[]
+    selectedDate: Date | null
 }
 
 export interface PayloadObject {
     key?: string;
     data?: DateMapping | Booking[];
+    date?: Date;
 }
 
 export interface AvailabilityPayload {
@@ -32,6 +34,7 @@ export interface AvailabilityPayload {
 const startingState: AvailabilityReducerState = {
   dates: {},
   bookings: [],
+  selectedDate: null,
 };
 
 const AvailabilityReducer = (state: AvailabilityReducerState = startingState, action: AvailabilityPayload) => {
@@ -50,13 +53,14 @@ const AvailabilityReducer = (state: AvailabilityReducerState = startingState, ac
     case 'SET_AVAILABILITY_DATES':
       return { ...state, dates: data };
     case 'SET_AVAILABILITY_BOOKINGS':
-      console.log('DATA: ', data);
       return { ...state, bookings: payload };
     case 'SET_AVAILABILITY_DATES_KEY':
       if (!key) {
         return state;
       }
       return { ...state, dates: { [key]: data, ...state.dates } };
+    case 'SET_AVAILABILITY_SELECTED_DATE':
+      return { ...state, selectedDate: payload.date };
     default:
       return state;
   }
