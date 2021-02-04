@@ -27,6 +27,9 @@ const SingleDay = ({ date, display }: SingleDayProps) => {
         && thisDate.getMonth() === compareDate.getMonth();
   }).map((d) => parseInt(d.time.split(':')[0], 10));
   const handleClick = (selectedDate: Date, slot: number): void => {
+    if (currentDateBookings.indexOf(slot) !== -1) {
+      return;
+    }
     const dateToUse = new Date(selectedDate);
     dateToUse.setHours(slot);
     dispatch(_setAvailabilitySelectedDate({ date: dateToUse }));
