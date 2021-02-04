@@ -20,14 +20,12 @@ export interface PageProps {
 
 const ConfirmationPopup = () => {
   const { selectedDate } = useSelector((state: ReducerState) => state.availability);
-  // const [state, setState] = useState<StateProps>({
-  //   index: 0,
-  //   direction: 'left',
-  // });
-  const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState('left');
+  const [state, setState] = useState<StateProps>({
+    index: 0,
+    direction: 'left',
+  });
 
-  // const { index, direction } = state;
+  const { index, direction } = state;
   const transitions = useTransition(index, null, {
     from: { transform: direction === 'left' ? 'translate3d(100vw, 0 ,0)' : 'translate3d(-100vw, 0 ,0)' },
     enter: { transform: 'translate3d(0, 0, 0)' },
@@ -41,13 +39,10 @@ const ConfirmationPopup = () => {
       return;
     }
     try {
-      debugger;
-      // setState({
-      //   index: index + 1,
-      //   direction: 'left',
-      // });
-      setIndex(index + 1);
-      setDirection('left');
+      setState({
+        index: index + 1,
+        direction: 'left',
+      });
     } catch (e) {
       console.log('error: ', e);
     }
@@ -58,13 +53,10 @@ const ConfirmationPopup = () => {
       return;
     }
     try {
-      debugger;
-      setIndex(index - 1);
-      setDirection('right');
-      // setState({
-      //   index: index - 1,
-      //   direction: 'right',
-      // });
+      setState({
+        index: index - 1,
+        direction: 'right',
+      });
     } catch (e) {
       console.log('error: ', e);
     }
