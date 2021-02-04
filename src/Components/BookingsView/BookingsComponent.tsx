@@ -68,7 +68,7 @@ const BookingsComponent = () => {
         {transitions.map(({ item, key, props }, i) => (
           <animated.div
             className="animated_section"
-            key={i}
+            key={item}
             style={{ ...props }}
           >
             <SingleWeek dates={dates[index]} />

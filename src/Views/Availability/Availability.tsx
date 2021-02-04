@@ -4,6 +4,7 @@ import BookingsComponent from '../../Components/BookingsView/BookingsComponent';
 import { Booking, DateData, DateMapping } from '../../Redux/reducers/AvailabilityReducer';
 import { _setAvailabilityBookings, _setAvailabilityDates, _setNavbarOpen } from '../../Redux/actions';
 import './AvailabilityStyles.css';
+import ConfirmationPopup from '../../Components/Confirmation/ConfirmationPopup';
 
 const AvailabilityContainer = () => {
   // eslint-disable-next-line no-unused-vars
@@ -30,33 +31,38 @@ const AvailabilityContainer = () => {
     }
     return dates;
   };
+  // @ts-ignore
   useEffect(() => {
     const getData = async () => {
       const dataRequest = await fetch('http://localhost:8080/bookings/');
       const data = await dataRequest.json();
       return data;
     };
-    getData().then((res) => {
-      console.log(res);
-      const data = res.map((r: Booking) => r);
-      console.log(data);
-      dispatch(_setAvailabilityBookings(data));
-    });
-    const allDates: DateMapping = {};
-    const today = new Date();
-    today.setHours(23);
-    for (let thisWeek = 0; thisWeek < 5; thisWeek++) {
-      const date = new Date();
-      date.setDate(date.getDate() + (thisWeek * 7));
-      allDates[thisWeek] = getFullWeek(date, thisWeek, today);
+    let mounted = true;
+    if (mounted) {
+      getData().then((res) => {
+        const data = res.map((r: Booking) => r);
+        dispatch(_setAvailabilityBookings(data));
+      });
+      const allDates: DateMapping = {};
+      const today = new Date();
+      today.setHours(23);
+      for (let thisWeek = 0; thisWeek < 5; thisWeek++) {
+        const date = new Date();
+        date.setDate(date.getDate() + (thisWeek * 7));
+        allDates[thisWeek] = getFullWeek(date, thisWeek, today);
+      }
+      dispatch(_setNavbarOpen());
+      dispatch(_setAvailabilityDates({ key: '', data: allDates }));
     }
-    dispatch(_setNavbarOpen());
-    dispatch(_setAvailabilityDates({ key: '', data: allDates }));
+    // eslint-disable-next-line no-return-assign
+    return () => mounted = false;
   }, []);
 
   return (
     <div id="availability_container">
       <BookingsComponent />
+      <ConfirmationPopup />
     </div>
   );
 };

@@ -21,3 +21,7 @@ export const _setAvailabilityBookings = (payload: PayloadObject): AvailabilityPa
   type: 'SET_AVAILABILITY_BOOKINGS',
   payload,
 });
+export const _setAvailabilitySelectedDate = (payload: PayloadObject): AvailabilityPayload => ({
+  type: 'SET_AVAILABILITY_SELECTED_DATE',
+  payload,
+});

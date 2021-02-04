@@ -41,6 +41,7 @@
 }
 .single_day .time_slots .booked {
   background: #7affd4;
+  color: #7affd4;
   border-color: #cbffee;
   font-weight: normal;
 }
@@ -49,6 +50,9 @@
 }
 .single_day .time_slots .booked:active {
   transform: translateY(0);
+}
+.single_day .time_slots .booked:focus {
+  outline: none;
 }
 
 /*# sourceMappingURL=SingleDayStyles.css.map */
