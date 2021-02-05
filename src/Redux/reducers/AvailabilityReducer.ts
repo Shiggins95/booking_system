@@ -23,7 +23,7 @@ export interface AvailabilityReducerState {
 export interface PayloadObject {
     key?: string;
     data?: DateMapping | Booking[];
-    date?: Date;
+    date?: Date | null;
 }
 
 export interface AvailabilityPayload {
