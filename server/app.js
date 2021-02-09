@@ -11,8 +11,12 @@ const app = express();
 mongoose.connect(
   process.env.MONGO_URL,
   { useNewUrlParser: true, useUnifiedTopology: true },
-  () => {
-    console.log('connected to db');
+  (err, db) => {
+    if (err) {
+      console.log(`unable to connect: ${err}`);
+    } else {
+      console.log('connected to db');
+    }
   },
 );
 

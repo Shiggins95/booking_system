@@ -5,8 +5,10 @@ const verifyToken = (req, res, next) => {
   if (req.originalUrl.split('/')[1] === 'token') {
     return next();
   }
+  if (req.originalUrl.indexOf('/users/newUser') !== -1 || req.originalUrl.indexOf('/users/getUser') !== -1) {
+    return next();
+  }
   const { token } = req.headers;
-  // const token = createToken({});
   if (!token) return res.status(401).send({ error: true, message: 'Invalid Token' });
   try {
     const { expiry, _id } = jwt.verify(token, process.env.TOKEN_SECRET);
