@@ -20,9 +20,9 @@ mongoose.connect(
   },
 );
 
+app.use(cors());
 app.use(verifyToken);
 app.use(express.json());
-app.use(cors());
 app.use('/bookings', bookingsRouter);
 app.use('/token', tokensRouter);
 app.use('/users', usersRouter);
