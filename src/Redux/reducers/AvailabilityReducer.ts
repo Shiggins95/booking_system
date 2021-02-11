@@ -16,14 +16,20 @@ export interface Booking {
 
 export interface AvailabilityReducerState {
     dates: DateMapping;
-    bookings?: Booking[]
-    selectedDate: Date | null
+    bookings?: Booking[];
+    selectedDate: Date | null;
+    display: boolean;
+    index: 0;
+    direction: string;
 }
 
 export interface PayloadObject {
     key?: string;
     data?: DateMapping | Booking[];
     date?: Date | null;
+    display?: boolean;
+    index?: number;
+    direction?: string;
 }
 
 export interface AvailabilityPayload {
@@ -35,6 +41,9 @@ const startingState: AvailabilityReducerState = {
   dates: {},
   bookings: [],
   selectedDate: null,
+  index: 0,
+  display: false,
+  direction: 'left',
 };
 
 const AvailabilityReducer = (state: AvailabilityReducerState = startingState, action: AvailabilityPayload) => {

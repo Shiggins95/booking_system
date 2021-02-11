@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars, max-len, react/destructuring-assignment */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { animated, useTransition } from 'react-spring';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,7 +8,7 @@ import { ReducerState } from '../../Redux/reducers';
 import './ConfirmationPopupStyles.css';
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './PaymentPage';
-import { _setAvailabilitySelectedDate } from '../../Redux/actions';
+import { _setAvailabilityDisplay, _setAvailabilitySelectedDate } from '../../Redux/actions';
 
 interface StateProps {
     index: number,
@@ -21,19 +21,22 @@ export interface PageProps {
 }
 
 const ConfirmationPopup = () => {
-  const { selectedDate } = useSelector((state: ReducerState) => state.availability);
-  const [state, setState] = useState<StateProps>({
-    index: 0,
-    direction: 'left',
-  });
+  const { display, index, direction } = useSelector((state: ReducerState) => state.confirmation);
+  // const [state, setState] = useState<StateProps>({
+  //   index: 0,
+  //   direction: 'left',
+  // });
   const dispatch = useDispatch();
 
-  const { index, direction } = state;
+  // const { index, direction } = state;
   const transitions = useTransition(index, null, {
     from: { transform: direction === 'left' ? 'translate3d(100vw, 0 ,0)' : 'translate3d(-100vw, 0 ,0)' },
     enter: { transform: 'translate3d(0, 0, 0)' },
     leave: { transform: direction === 'left' ? 'translate3d(-100vw, 0, 0)' : 'translate3d(100vw, 0, 0)' },
   });
+
+  // @ts-ignore
+  useEffect(() => () => dispatch(_setAvailabilityDisplay({ display: false })), []);
 
   const dates = [ConfirmationPage, PaymentPage];
 
@@ -42,10 +45,7 @@ const ConfirmationPopup = () => {
       return;
     }
     try {
-      setState({
-        index: index + 1,
-        direction: 'left',
-      });
+      dispatch(_setAvailabilityDisplay({ display: true, index: index + 1, direction: 'left' }));
     } catch (e) {
       console.log('error: ', e);
     }
@@ -56,20 +56,17 @@ const ConfirmationPopup = () => {
       return;
     }
     try {
-      setState({
-        index: index - 1,
-        direction: 'right',
-      });
+      dispatch(_setAvailabilityDisplay({ display: true, index: index - 1, direction: 'right' }));
     } catch (e) {
       console.log('error: ', e);
     }
   };
 
   const close = () => {
-    dispatch(_setAvailabilitySelectedDate({ date: null }));
+    dispatch(_setAvailabilityDisplay({ display: false }));
   };
 
-  return selectedDate === null ? null : (
+  return !display ? null : (
     <div id="confirmation_popup_container">
       <div className="confirmation_box">
         <div className="close_button">

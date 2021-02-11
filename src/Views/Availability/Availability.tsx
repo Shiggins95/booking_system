@@ -41,6 +41,10 @@ const AvailabilityContainer = () => {
     let mounted = true;
     if (mounted) {
       getData().then((res) => {
+        if (res.error) {
+          console.log('error', res.message);
+          return;
+        }
         const data = res.map((r: Booking) => r);
         dispatch(_setAvailabilityBookings(data));
       });
