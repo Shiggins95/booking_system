@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import {
-  Elements, CardNumberElement, CardExpiryElement, CardCvcElement,
+  Elements, CardNumberElement, CardExpiryElement, CardCvcElement, CardElement,
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { PageProps } from './ConfirmationPopup';
@@ -12,18 +12,9 @@ const getStripe = () => {
   return key || '';
 };
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
 const stripePromise = loadStripe(getStripe());
 const PaymentPage = ({ next, back }: PageProps) => {
   console.log('payment page');
-  // eslint-disable-next-line no-unused-vars
-  const [loaded, setLoaded] = useState(false);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setLoaded(true);
-  //   }, 20);
-  // }, []);
   return (
     <div id="payment_page">
       <button type="button" onClick={next}>Next</button>
@@ -77,27 +68,26 @@ const PaymentPage = ({ next, back }: PageProps) => {
                 },
               },
             }}
-            onReady={() => setLoaded(true)}
           />
         </form>
-        {!loaded ? (
-          <div className="spinner_container">
-            <div className="lds-spinner">
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-            </div>
-          </div>
-        ) : null}
+        {/* {!loaded ? ( */}
+        {/*  <div className="spinner_container"> */}
+        {/*    <div className="lds-spinner"> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*      <div /> */}
+        {/*    </div> */}
+        {/*  </div> */}
+        {/* ) : null} */}
       </Elements>
     </div>
   );

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 const bookingsRouter = require('./routes/bookings');
 const tokensRouter = require('./routes/token');
 const usersRouter = require('./routes/users');
@@ -20,6 +21,13 @@ mongoose.connect(
   },
 );
 
+app.use(express.static(path.join(__dirname, '..', 'build')));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+});
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+});
 app.use(cors());
 app.use(verifyToken);
 app.use(express.json());
@@ -31,10 +39,6 @@ app.get('/*', (req, res) => {
 });
 
 const PORT = 8080;
-
-app.get('/', (req, res) => {
-  res.send({ PORT });
-});
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
