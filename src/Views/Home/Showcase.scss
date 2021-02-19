@@ -38,6 +38,8 @@
         @include flexCenterCol;
         color: $primary_color;
         font-weight: 700;
+        width: 500px;
+        margin: 10px 0;
         background: $secondary_color;
         &:hover{
           cursor: pointer;

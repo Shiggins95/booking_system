@@ -45,6 +45,8 @@
   align-items: center;
   color: #7affd4;
   font-weight: 700;
+  width: 500px;
+  margin: 10px 0;
   background: #ffa6ca;
 }
 #showcase .left .enquire button:hover {
