@@ -1,7 +1,6 @@
 import React, { RefObject } from 'react';
-import './Services.css';
+import './HairBookingStyles.css';
 import { Link } from 'react-router-dom';
-// import HairdressingImage from '../../Assets/Images/Hairdressing.jpeg';
 
 interface HairBookingProps {
     refProp: RefObject<HTMLDivElement>;

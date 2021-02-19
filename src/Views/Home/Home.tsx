@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import './Home.css';
 import { useDispatch } from 'react-redux';
-import HairSection from './HairSection';
+import TopSection from './TopSection';
 import HairBooking from './HairBooking';
 import BeautyBooking from './BeautyBooking';
 import { _setNavbarClosed } from '../../Redux/actions';
@@ -34,7 +34,7 @@ const HomeContainer = () => {
   };
   return (
     <div id="home_container">
-      <HairSection scrollToHair={scrollToHair} scrollToBeauty={scrollToBeauty} />
+      <TopSection scrollToHair={scrollToHair} scrollToBeauty={scrollToBeauty} />
       <HairBooking refProp={scrollRefHair} />
       <BeautyBooking refProp={scrollRefBeauty} />
     </div>

@@ -1,34 +1,39 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
-#gallery_container {
-  width: 100vw;
+#services_container {
+  width: 100%;
   height: 100vh;
-  background: darkgreen;
+  background: orange;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-#gallery_container .left, #gallery_container .right {
+#services_container .left, #services_container .right {
   width: 50%;
   height: 100%;
 }
-#gallery_container .left {
-  background: #7affd4;
+#services_container .left {
+  background: url("../../Assets/Images/Hairdressing.jpeg") no-repeat right center;
+  background-size: cover;
+}
+#services_container .right {
   color: #ffa6ca;
   display: flex;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #7affd4;
 }
-#gallery_container .left h1 {
+#services_container .right h1 {
   font-size: 5em;
 }
-#gallery_container .left a {
+#services_container .right a {
   margin-top: 50px;
   text-decoration: none;
   padding: 20px;
   border: none;
   font-size: 2em;
+  width: 450px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,12 +42,8 @@
   font-weight: 700;
   background: #ffa6ca;
 }
-#gallery_container .left a:hover {
+#services_container .right a:hover {
   cursor: pointer;
 }
-#gallery_container .right {
-  background: url("../../Assets/Images/Beauty.jpeg") no-repeat left center;
-  background-size: cover;
-}
 
-/*# sourceMappingURL=BeautyBooking.css.map */
+/*# sourceMappingURL=HairBookingStyles.css.map */

@@ -1,14 +1,12 @@
-/* eslint-disable no-unused-vars */
-import React, { useRef } from 'react';
-import './Showcase.css';
-import ShowcaseImage4 from '../../Assets/Images/scissors.jpeg';
+import React from 'react';
+import './TopSectionStyles.css';
 
 interface ShowcaseProps {
     scrollToHair: () => void;
     scrollToBeauty: () => void;
 }
 
-const HairSection = ({ scrollToHair, scrollToBeauty }: ShowcaseProps) => (
+const TopSection = ({ scrollToHair, scrollToBeauty }: ShowcaseProps) => (
   <div id="showcase">
     <div className="left">
       <div className="title">
@@ -32,4 +30,4 @@ const HairSection = ({ scrollToHair, scrollToBeauty }: ShowcaseProps) => (
   </div>
 );
 
-export default HairSection;
+export default TopSection;
