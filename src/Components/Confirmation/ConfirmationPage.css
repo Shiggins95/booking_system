@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+#confirmation_page {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2fr 5fr 1fr;
+}
+#confirmation_page .title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffa6ca;
+  border-bottom: 2px solid #ffa6ca;
+}
+#confirmation_page .inputs {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 25px;
+  grid-auto-rows: minmax(75px, auto);
+  justify-items: center;
+  align-content: center;
+  padding: 25px;
+}
+#confirmation_page .inputs label {
+  font-size: 0.8em;
+  top: 14px;
+  left: 60px;
+}
+#confirmation_page .inputs div {
+  padding: 20px 50px;
+}
+#confirmation_page .footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+#confirmation_page .footer button {
+  width: 150px;
+  border: 2px solid #ffa6ca;
+  color: #ffa6ca;
+  background: #cbffee;
+  font-weight: 900;
+  letter-spacing: 5px;
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=ConfirmationPage.css.map */

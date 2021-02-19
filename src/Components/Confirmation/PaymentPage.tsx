@@ -15,80 +15,57 @@ const getStripe = () => {
 const stripePromise = loadStripe(getStripe());
 const PaymentPage = ({ next, back }: PageProps) => {
   console.log('payment page');
+  const handleSubmit = () => {
+    console.log('submitting');
+  };
+  const elementOptions = {
+    style: {
+      base: {
+        fontSize: '16px',
+        color: 'rgb(255, 166, 202)',
+        '::placeholder': {
+          color: 'rgba(255, 166, 202, 0.5)',
+        },
+      },
+      invalid: {
+        color: '#9e2146',
+      },
+    },
+  };
   return (
     <div id="payment_page">
-      <button type="button" onClick={next}>Next</button>
-      <button type="button" onClick={back}>Back</button>
+      <div className="title">
+        <h1>Client Information</h1>
+      </div>
       <Elements stripe={stripePromise}>
-        <form action="">
-          <CardNumberElement
-            options={{
-              style: {
-                base: {
-                  fontSize: '16px',
-                  color: '#424770',
-                  '::placeholder': {
-                    color: '#aab7c4',
-                  },
-                },
-                invalid: {
-                  color: '#9e2146',
-                },
-              },
-            }}
-          />
-          <CardExpiryElement
-            options={{
-              style: {
-                base: {
-                  fontSize: '16px',
-                  color: '#424770',
-                  '::placeholder': {
-                    color: '#aab7c4',
-                  },
-                },
-                invalid: {
-                  color: '#9e2146',
-                },
-              },
-            }}
-          />
-          <CardCvcElement
-            options={{
-              style: {
-                base: {
-                  fontSize: '16px',
-                  color: '#424770',
-                  '::placeholder': {
-                    color: '#aab7c4',
-                  },
-                },
-                invalid: {
-                  color: '#9e2146',
-                },
-              },
-            }}
-          />
+        <form onSubmit={handleSubmit}>
+          <div className="element el0">
+            <p>Card Number</p>
+            <CardNumberElement
+              className="card_element"
+              options={elementOptions}
+            />
+          </div>
+          <div className="element el1">
+            <p>Expiry Date</p>
+            <CardExpiryElement
+              className="card_expiry"
+              options={elementOptions}
+            />
+          </div>
+          <div className="element el2">
+            <p>Security Code</p>
+            <CardCvcElement
+              className="card_security"
+              options={elementOptions}
+            />
+          </div>
         </form>
-        {/* {!loaded ? ( */}
-        {/*  <div className="spinner_container"> */}
-        {/*    <div className="lds-spinner"> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*      <div /> */}
-        {/*    </div> */}
-        {/*  </div> */}
-        {/* ) : null} */}
       </Elements>
+      <div className="footer">
+        <button type="button" onClick={back}>Back</button>
+        <button type="button" onClick={handleSubmit}>Submit</button>
+      </div>
     </div>
   );
 };

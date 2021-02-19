@@ -4,10 +4,11 @@ import './Showcase.css';
 import ShowcaseImage4 from '../../Assets/Images/scissors.jpeg';
 
 interface ShowcaseProps {
-    scrollTo: () => void
+    scrollToHair: () => void;
+    scrollToBeauty: () => void;
 }
 
-const Showcase = ({ scrollTo }: ShowcaseProps) => (
+const HairSection = ({ scrollToHair, scrollToBeauty }: ShowcaseProps) => (
   <div id="showcase">
     <div className="left">
       <div className="title">
@@ -19,8 +20,11 @@ const Showcase = ({ scrollTo }: ShowcaseProps) => (
         </h2>
       </div>
       <div className="enquire">
-        <button type="button" onClick={scrollTo}>
-          ENQUIRE BELOW
+        <button type="button" onClick={scrollToHair}>
+          Book Hair Appointment
+        </button>
+        <button type="button" onClick={scrollToBeauty}>
+          Book Beauty Appointment
         </button>
       </div>
     </div>
@@ -28,4 +32,4 @@ const Showcase = ({ scrollTo }: ShowcaseProps) => (
   </div>
 );
 
-export default Showcase;
+export default HairSection;

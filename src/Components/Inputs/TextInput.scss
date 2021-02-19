@@ -1,0 +1,34 @@
+@import "../../StyleDefaults/variables";
+@import "../../StyleDefaults/mixins";
+
+.text_input_container{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: $fourth_color;
+  @include flexCenterRow;
+  input {
+    width: 100%;
+    height: 100%;
+    background: $fourth_color;
+    padding: 10px 20px;
+    border: 2px solid $secondary_color;
+    color: $secondary_color;
+    font-weight: 900;
+    letter-spacing: 3px;
+    &:focus {
+      outline-color: $primary_color;
+    }
+  }
+  label {
+    background: $fourth_color;
+    z-index: 10;
+    position: absolute;
+    padding: 0 5px;
+    top: 10px;
+    left: 75px;
+    letter-spacing: 5px;
+    font-weight: 700;
+    color: $secondary_color;
+  }
+}

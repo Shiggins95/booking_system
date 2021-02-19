@@ -3,20 +3,20 @@ import './Services.css';
 import { Link } from 'react-router-dom';
 // import HairdressingImage from '../../Assets/Images/Hairdressing.jpeg';
 
-interface ServicesProps {
+interface HairBookingProps {
     refProp: RefObject<HTMLDivElement>;
 }
-const Services = ({ refProp }:ServicesProps) => (
+const HairBooking = ({ refProp }:HairBookingProps) => (
   <div id="services_container" ref={refProp}>
     <div className="left" />
     <div className="right">
       <h1>
         HAIR STYLING
       </h1>
-      <h2>FROM THE BEST IN GLASGOW</h2>
-      <Link to="/book">ENQUIRE NOW</Link>
+      <h2>SELECT FROM AVAILABILITY CALENDAR</h2>
+      <Link to="/availability">BOOK NOW</Link>
     </div>
   </div>
 );
 
-export default Services;
+export default HairBooking;

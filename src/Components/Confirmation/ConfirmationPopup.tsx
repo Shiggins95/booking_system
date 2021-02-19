@@ -24,13 +24,7 @@ const ConfirmationPopup = () => {
   const { display } = useSelector((state: ReducerState) => state.confirmation);
   const index = useRef(0);
   const direction = useRef('left');
-  // const [state, setState] = useState<StateProps>({
-  //   index: 0,
-  //   direction: 'left',
-  // });
   const dispatch = useDispatch();
-
-  // const { index, direction } = state;
   const transitions = useTransition(index.current, null, {
     from: { transform: direction.current === 'left' ? 'translate3d(100vw, 0 ,0)' : 'translate3d(-100vw, 0 ,0)' },
     enter: { transform: 'translate3d(0, 0, 0)' },
