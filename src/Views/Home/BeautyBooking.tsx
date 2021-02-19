@@ -1,10 +1,11 @@
 import React, { RefObject } from 'react';
-import './Gallery.css';
+import './BeautyBookingStyles.css';
 import { Link } from 'react-router-dom';
-// import BeautyImage from '../../Assets/Images/Beauty.jpeg';
+
 interface BeautyBookingProps {
     refProp: RefObject<HTMLDivElement>;
 }
+
 const BeautyBooking = ({ refProp }:BeautyBookingProps) => (
   <div id="gallery_container" ref={refProp}>
     <div className="left">
