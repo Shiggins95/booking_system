@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 const path = require('path');
 const bookingsRouter = require('./routes/bookings');
 const tokensRouter = require('./routes/token');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/Stylists');
 const { verifyToken } = require('./auth/token');
+const clientsRouter = require('./routes/clients');
 require('dotenv').config();
 
 const app = express();
@@ -21,19 +22,20 @@ mongoose.connect(
   },
 );
 
-app.use(express.static(path.join(__dirname, '..', 'build')));
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
+// app.use(express.static(path.join(__dirname, '..', 'build')));
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+// });
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+// });
 app.use(cors());
 app.use(verifyToken);
 app.use(express.json());
 app.use('/bookings', bookingsRouter);
 app.use('/token', tokensRouter);
-app.use('/users', usersRouter);
+app.use('/stylists', usersRouter);
+app.use('/clients', clientsRouter);
 app.get('/*', (req, res) => {
   res.status(404).send({ error: true, message: 'NOT_FOUND' });
 });

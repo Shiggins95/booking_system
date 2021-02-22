@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const User = require('../models/user');
+const Stylist = require('../models/stylist');
 const { createToken } = require('../auth/token');
 const { validateCreate } = require('../auth/validation');
 
-router.post('/newUser', async (req, res) => {
+router.post('/newStylist', async (req, res) => {
   const { email, password, name } = req.body;
   // validate body using validation schema in validateCreate
   const { error } = validateCreate(req.body);
@@ -13,26 +13,26 @@ router.post('/newUser', async (req, res) => {
     return res.status(400).send({ error: true, message: error.details });
   }
   // check if user already exists
-  const foundUser = await User.findOne({ email });
+  const foundStylist = await Stylist.findOne({ email });
   // return error if found
-  if (foundUser) {
-    return res.status(400).send({ error: true, message: 'User exists' });
+  if (foundStylist) {
+    return res.status(400).send({ error: true, message: 'Stylist exists' });
   }
   // generate salt
   const salt = await bcrypt.genSalt();
   // hash password
   const hashPw = await bcrypt.hash(password, salt);
   // create user
-  const user = new User({
+  const user = new Stylist({
     email,
     password: hashPw,
     name,
   });
   try {
     // save user
-    const savedUser = await user.save();
+    const savedStylist = await user.save();
     // generate token for user id
-    const token = createToken({ _id: savedUser._id });
+    const token = createToken({ _id: savedStylist._id });
     // update response
     return res.status(200).send({ token });
   } catch (e) {
@@ -41,19 +41,19 @@ router.post('/newUser', async (req, res) => {
   }
 });
 
-router.get('/getUser/:userId', async (req, res) => {
+router.get('/getStylist/:stylistId', async (req, res) => {
   // find user
-  const foundUser = await User.findOne({ _id: req.params.userId });
+  const foundStylist = await Stylist.findOne({ _id: req.params.stylistId });
   // return error if not found
-  if (!foundUser) {
-    return res.status(400).send({ error: true, message: 'User not found' });
+  if (!foundStylist) {
+    return res.status(400).send({ error: true, message: 'Stylist not found' });
   }
   // return new token with user id
-  return res.status(200).send({ token: createToken({ _id: foundUser._id }), user: foundUser });
+  return res.status(200).send({ token: createToken({ _id: foundStylist._id }), user: foundStylist });
 });
 
 router.get('/', async (req, res) => {
-  const users = await User.find();
+  const users = await Stylist.find();
   res.send(users);
 });
 

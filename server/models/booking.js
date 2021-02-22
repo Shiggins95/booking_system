@@ -5,9 +5,14 @@ const bookingSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  user: {
+  stylist: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Stylist',
+    required: false,
+  },
+  client: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Client',
     required: false,
   },
 });
