@@ -8,4 +8,12 @@ const creationSchema = Joi.object({
 
 const validateCreate = (body) => creationSchema.validate(body);
 
-module.exports = { validateCreate };
+const clientCreationSchema = Joi.object({
+  name: Joi.string().required(),
+  phoneNumber: Joi.string().required(),
+  email: Joi.string().min(6).email().required(),
+});
+
+const validateClientCreate = (body) => clientCreationSchema.validate(body);
+
+module.exports = { validateCreate, validateClientCreate };

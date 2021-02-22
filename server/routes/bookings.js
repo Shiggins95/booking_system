@@ -1,61 +1,83 @@
 const router = require('express').Router();
 // const bookings = require('../data/bookings.json');
-const User = require('../models/user');
+const Stylist = require('../models/stylist');
 const Booking = require('../models/booking');
+const Client = require('../models/client');
 
 router.get('/', (req, res) => {
   res.send([]);
 });
 
 router.post('/newBooking', async (req, res) => {
-  const { userId, body: { date } } = req;
-  // find user using id from request (passed via verify middleware)
-  const foundUser = await User.findOne({ _id: userId });
+  const { body: { date, clientId, stylistId } } = req;
+  // return error if missing param
+  if (!clientId || !stylistId || !date) {
+    return res.status(400).send({ error: true, message: 'Missing required parameter. Please check request body' });
+  }
+  // find stylist and return error if not found
+  const foundStylist = await Stylist.findOne({ _id: stylistId });
   // error handling if no user found
-  if (!foundUser) {
-    return res.status(400).send({ error: true, message: 'User not found' });
+  if (!foundStylist) {
+    return res.status(400).send({ error: true, message: 'Stylist not found' });
+  }
+  // find client and return error if not found
+  const foundClient = await Client.findOne({ _id: clientId });
+  if (!foundClient) {
+    return res.status(400).send({ error: true, message: 'Client not found' });
   }
   // convert date string to date object
   const formattedDate = new Date(date);
-  // get bookings from user to add new booking to
-  const { bookings } = foundUser;
-  // create new booking using date passed in, and assigning user
-  const booking = new Booking({ date: formattedDate, user: foundUser._id });
+  // get bookings from client & stylist to add new booking to
+  const { bookings } = foundStylist;
+  const clientBookings = foundClient.bookings;
+  // create new booking using date passed in, and assigning stylist & client
+  const booking = new Booking({ date: formattedDate, stylist: foundStylist._id, client: foundClient._id });
   // save booking
   const savedBooking = await booking.save();
-  // add new booking to users bookings list
+  // add new booking to clients & stylists bookings list
   bookings.push(savedBooking._id);
+  clientBookings.push(savedBooking._id);
   // update user with new bookings
-  await User.updateOne({ _id: userId }, { $set: { bookings } });
+  await Stylist.updateOne({ _id: stylistId }, { $set: { bookings } });
+  await Client.updateOne({ _id: foundClient._id }, { $set: { bookings } });
   // update response
-  res.send({ bookingId: savedBooking._id });
+  return res.send({ bookingId: savedBooking._id });
 });
 
 router.post('/cancelBooking', async (req, res) => {
-  const { userId, body: { bookingId } } = req;
-  // find user using id from request (passed via verify middleware)
-  const foundUser = await User.findOne({ _id: userId });
-  // find the booking using bookingId in body
+  const { body: { bookingId } } = req;
+  // find booking, and get stylist and client from it
   const foundBooking = await Booking.findOne({ _id: bookingId });
-  // error handling if booking / user not found
-  if (!foundUser) {
-    return res.status(400).send({ error: true, message: 'User not found' });
+  const stylistId = foundBooking.stylist;
+  const clientId = foundBooking.client;
+  // find user using id from request (passed via verify middleware)
+  const foundStylist = await Stylist.findOne({ _id: stylistId });
+  const foundClient = await Client.findOne({ _id: clientId });
+  // error handling if booking / client / stylist not found
+  if (!foundStylist) {
+    return res.status(400).send({ error: true, message: 'Stylist not found' });
   }
   if (!foundBooking) {
     return res.status(400).send({ error: true, message: 'Booking not found' });
   }
+  if (!foundClient) {
+    return res.status(400).send({ error: true, message: 'Client not found' });
+  }
   // error handle if no bookings for user
-  const { bookings } = foundUser;
-  if (bookings.length === 0) {
-    return res.status(400).send({ error: true, message: 'No bookings for user' });
+  const { bookings } = foundStylist;
+  const clientBookings = foundClient.bookings;
+  if (bookings.length === 0 || clientBookings) {
+    return res.status(400).send({ error: true, message: 'No bookings found for client / stylist to remove' });
   }
   // filter out booking to be deleted from users list of bookings
   const newBookings = bookings.filter((booking) => booking.toString() !== bookingId.toString());
-  // update user with list of new bookings
-  await User.updateOne({ _id: userId }, { $set: { bookings: newBookings } });
+  // update stylist & user with list of new bookings
+  await Stylist.updateOne({ _id: stylistId }, { $set: { bookings: newBookings } });
+  await Client.updateOne({ _id: clientId }, { $set: { bookings: newBookings } });
   // delete booking
   await Booking.deleteOne({ _id: bookingId });
   // update response
   return res.status(200).send({ message: 'Booking removed' });
 });
+
 module.exports = router;

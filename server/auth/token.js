@@ -15,7 +15,7 @@ const verifyToken = (req, res, next) => {
     if (expiry < new Date().getTime()) {
       return res.status(401).send({ error: true, message: 'Invalid Token' });
     }
-    req.userId = _id;
+    req.stylistId = _id;
     return next();
   } catch (e) {
     return res.status(401).send({ error: true, message: e });
