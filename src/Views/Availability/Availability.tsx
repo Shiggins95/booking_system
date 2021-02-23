@@ -5,9 +5,10 @@ import { Booking, DateData, DateMapping } from '../../Redux/reducers/Availabilit
 import { _setAvailabilityBookings, _setAvailabilityDates, _setNavbarOpen } from '../../Redux/actions';
 import './AvailabilityStyles.css';
 import ConfirmationPopup from '../../Components/Confirmation/ConfirmationPopup';
+import { MatchProps } from '../../Types';
 
-const AvailabilityContainer = () => {
-  // eslint-disable-next-line no-unused-vars
+const AvailabilityContainer = ({ match }: MatchProps) => {
+  console.log(match.params.type);
   const dispatch = useDispatch();
 
   const getFullWeek = (date: Date, week: number, todaysDate: Date): DateData[] => {
