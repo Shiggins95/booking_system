@@ -1,0 +1,31 @@
+@import "../../StyleDefaults/_mixins";
+@import "../../StyleDefaults/_variables";
+
+.select_input_container {
+  width: 300px;
+  max-height: 250px;
+  display: grid;
+  background: $primary_color;
+  border: 2px solid $primary_color;
+  overflow: scroll;
+  .select_option {
+    width: 100%;
+    height: 50px;
+    @include flexCenterRow;
+    color: $secondary_color;
+    font-weight: bold;
+    letter-spacing: 2px;
+    background: $primary_color;
+    &:nth-child(2n + 2) {
+      background: $secondary_color;
+      color: $primary_color;
+    }
+    &:hover{
+      cursor: pointer;
+    }
+    &:active {
+      transform: translateY(1px);
+    }
+  }
+
+}

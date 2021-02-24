@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import { Action } from '../reducers/NavbarReducer';
 import {
   AvailabilityPayload,
@@ -27,7 +28,6 @@ export const _setAvailabilitySelectedDate = (payload: PayloadObject): Availabili
   payload,
 });
 
-// eslint-disable-next-line arrow-body-style
 export const _setAvailabilityDisplay = (payload: ConfirmationPayloadObject):ConfirmationPayloadAction => {
   return (payload.display ? {
     type: 'SET_AVAILABILITY_POPUP_DISPLAY_TRUE',
@@ -36,4 +36,8 @@ export const _setAvailabilityDisplay = (payload: ConfirmationPayloadObject):Conf
     type: 'SET_AVAILABILITY_POPUP_DISPLAY_FALSE',
     payload,
   });
+};
+
+export const _setAvailabilityStylist = (payload: PayloadObject):AvailabilityPayload => {
+  return { type: 'SET_AVAILABILITY_STYLIST', payload };
 };

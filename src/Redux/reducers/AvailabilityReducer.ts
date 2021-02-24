@@ -21,6 +21,7 @@ export interface AvailabilityReducerState {
     display: boolean;
     index: 0;
     direction: string;
+    stylist: Object | null;
 }
 
 export interface PayloadObject {
@@ -30,6 +31,7 @@ export interface PayloadObject {
     display?: boolean;
     index?: number;
     direction?: string;
+    stylist?: Object | null;
 }
 
 export interface AvailabilityPayload {
@@ -44,6 +46,7 @@ const startingState: AvailabilityReducerState = {
   index: 0,
   display: false,
   direction: 'left',
+  stylist: null,
 };
 
 const AvailabilityReducer = (state: AvailabilityReducerState = startingState, action: AvailabilityPayload) => {
@@ -70,6 +73,8 @@ const AvailabilityReducer = (state: AvailabilityReducerState = startingState, ac
       return { ...state, dates: { [key]: data, ...state.dates } };
     case 'SET_AVAILABILITY_SELECTED_DATE':
       return { ...state, selectedDate: payload.date };
+    case 'SET_AVAILABILITY_STYLIST':
+      return { ...state, stylist: payload.stylist };
     default:
       return state;
   }

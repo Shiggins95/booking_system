@@ -4,6 +4,7 @@ const creationSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().min(6).email().required(),
   password: Joi.string().min(6).required(),
+  type: Joi.string().required(),
 });
 
 const validateCreate = (body) => creationSchema.validate(body);

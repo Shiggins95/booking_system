@@ -18,6 +18,10 @@ const stylistSchema = mongoose.Schema({
     ref: 'Booking',
     required: false,
   },
+  type: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Stylist', stylistSchema);

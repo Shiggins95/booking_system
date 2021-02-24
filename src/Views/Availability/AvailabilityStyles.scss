@@ -4,5 +4,20 @@
 #availability_container {
   width: 100vw;
   background: $primary_color;
-  padding-top: 50px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 3fr;
+  .header {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    @include flexCenterRow;
+    h2 {
+      width: 300px;
+      color: $primary_color;
+      padding: 20px 0 5px 0;
+      margin: 0;
+      border-bottom: 2px solid $primary_color;
+    }
+  }
 }

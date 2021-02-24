@@ -31,7 +31,8 @@ const Navbar = ({ location: { pathname } }: MatchProps) => {
     return () => window.removeEventListener('scroll', scroll);
   });
   useEffect(() => {
-    if (pathname !== '/') {
+    console.log('pathname', pathname);
+    if (pathname !== '/' && !open) {
       setOpen(true);
     }
   }, []);
