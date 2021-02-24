@@ -44,6 +44,15 @@ router.post('/newBooking', async (req, res) => {
   return res.send({ bookingId: savedBooking._id });
 });
 
+router.get('/stylists/:stylistId', async (req, res) => {
+  const { params: { stylistId } } = req;
+  const foundStylist = await Stylist.findOne({ _id: stylistId });
+  if (!foundStylist) {
+    return res.status(400).send({ error: true, message: 'No stylist found for that id' });
+  }
+  return res.status(200).send({ bookings: foundStylist.bookings });
+});
+
 router.post('/cancelBooking', async (req, res) => {
   const { body: { bookingId } } = req;
   // find booking, and get stylist and client from it

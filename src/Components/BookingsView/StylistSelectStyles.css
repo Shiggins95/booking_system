@@ -1,0 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+#stylist_select {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-items: center;
+  background: #ffa6ca;
+  grid-gap: 10px;
+  padding-bottom: 10px;
+}
+
+/*# sourceMappingURL=StylistSelectStyles.css.map */

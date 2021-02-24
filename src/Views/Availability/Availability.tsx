@@ -6,9 +6,11 @@ import { _setAvailabilityBookings, _setAvailabilityDates, _setNavbarOpen } from 
 import './AvailabilityStyles.css';
 import ConfirmationPopup from '../../Components/Confirmation/ConfirmationPopup';
 import { MatchProps } from '../../Types';
+import StylistSelect from '../../Components/BookingsView/StylistSelect';
 
 const AvailabilityContainer = ({ match }: MatchProps) => {
-  console.log(match.params.type);
+  const { type } = match.params;
+  console.log('type: ', type);
   const dispatch = useDispatch();
 
   const getFullWeek = (date: Date, week: number, todaysDate: Date): DateData[] => {
@@ -66,6 +68,7 @@ const AvailabilityContainer = ({ match }: MatchProps) => {
 
   return (
     <div id="availability_container">
+      <StylistSelect type={type} />
       <BookingsComponent />
       <ConfirmationPopup />
     </div>

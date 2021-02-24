@@ -13,7 +13,7 @@ const BeautyBooking = ({ refProp }:BeautyBookingProps) => (
         BEAUTY THERAPY
       </h1>
       <h2>SELECT FROM AVAILABILITY CALENDAR</h2>
-      <Link to="/availability">BOOK NOW</Link>
+      <Link to="/availability/beauty">BOOK NOW</Link>
     </div>
     <div className="right" />
   </div>

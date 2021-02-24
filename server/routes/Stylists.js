@@ -5,7 +5,9 @@ const { createToken } = require('../auth/token');
 const { validateCreate } = require('../auth/validation');
 
 router.post('/newStylist', async (req, res) => {
-  const { email, password, name } = req.body;
+  const {
+    email, password, name, type,
+  } = req.body;
   // validate body using validation schema in validateCreate
   const { error } = validateCreate(req.body);
   // return if error
@@ -27,6 +29,7 @@ router.post('/newStylist', async (req, res) => {
     email,
     password: hashPw,
     name,
+    type,
   });
   try {
     // save user
@@ -50,6 +53,16 @@ router.get('/getStylist/:stylistId', async (req, res) => {
   }
   // return new token with user id
   return res.status(200).send({ token: createToken({ _id: foundStylist._id }), user: foundStylist });
+});
+
+router.get('/hair', async (req, res) => {
+  const hairStylists = await Stylist.find({ type: 'hair' });
+  return res.status(200).send({ stylists: hairStylists });
+});
+
+router.get('/beauty', async (req, res) => {
+  const beautyStylists = await Stylist.find({ type: 'beauty' });
+  return res.status(200).send({ stylists: beautyStylists });
 });
 
 router.get('/', async (req, res) => {

@@ -2,7 +2,24 @@
 #availability_container {
   width: 100vw;
   background: #7affd4;
-  padding-top: 50px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 3fr;
+}
+#availability_container .header {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#availability_container .header h2 {
+  width: 300px;
+  color: #7affd4;
+  padding: 20px 0 5px 0;
+  margin: 0;
+  border-bottom: 2px solid #7affd4;
 }
 
 /*# sourceMappingURL=AvailabilityStyles.css.map */
