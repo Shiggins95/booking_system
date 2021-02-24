@@ -54,7 +54,7 @@ const StylistSelect = ({ type }: StylistSelectProps) => {
   return (
     <div id="stylist_select">
       <div className="header">
-        <h2>select stylist</h2>
+        <h2>Select Stylist</h2>
       </div>
       <SelectInput values={options} />
     </div>
