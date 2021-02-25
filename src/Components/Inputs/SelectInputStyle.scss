@@ -16,6 +16,7 @@
     font-weight: bold;
     letter-spacing: 2px;
     background: $primary_color;
+    border: none;
     &:nth-child(2n + 2) {
       background: $secondary_color;
       color: $primary_color;
