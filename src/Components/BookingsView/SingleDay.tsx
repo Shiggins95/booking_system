@@ -18,6 +18,7 @@ const SingleDay = ({ date, display }: SingleDayProps) => {
     (state: ReducerState): AvailabilityReducerState => state.availability,
   );
   const bookings: Booking[] = availabilityState.bookings ? availabilityState.bookings : [];
+  console.log('BOOKINGS', bookings);
   const currentDateBookings = bookings.filter((booking) => {
     // debugger;
     const thisDate = new Date(date.date);

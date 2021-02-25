@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import BookingsComponent from '../../Components/BookingsView/BookingsComponent';
 import { Booking, DateData, DateMapping } from '../../Redux/reducers/AvailabilityReducer';
-import { _setAvailabilityBookings, _setAvailabilityDates, _setNavbarOpen } from '../../Redux/actions';
+import {
+  _setAvailabilityBookings, _setAvailabilityDates, _setNavbarOpen,
+} from '../../Redux/actions';
 import './AvailabilityStyles.css';
 import ConfirmationPopup from '../../Components/Confirmation/ConfirmationPopup';
 import { MatchProps } from '../../Types';
@@ -62,6 +64,7 @@ const AvailabilityContainer = ({ match }: MatchProps) => {
       dispatch(_setNavbarOpen());
       dispatch(_setAvailabilityDates({ key: '', data: allDates }));
     }
+    window.scrollTo(0, 0);
     // eslint-disable-next-line no-return-assign
     return () => mounted = false;
   }, []);

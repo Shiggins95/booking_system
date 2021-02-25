@@ -1,3 +1,5 @@
+import { Stylist } from '../../Components/BookingsView/StylistSelect';
+
 export interface DateMapping {
     [key: number]: DateData[]
 }
@@ -21,7 +23,7 @@ export interface AvailabilityReducerState {
     display: boolean;
     index: 0;
     direction: string;
-    stylist: Object | null;
+    stylist: Stylist | null;
 }
 
 export interface PayloadObject {
@@ -31,7 +33,7 @@ export interface PayloadObject {
     display?: boolean;
     index?: number;
     direction?: string;
-    stylist?: Object | null;
+    stylist?: Stylist | null;
 }
 
 export interface AvailabilityPayload {

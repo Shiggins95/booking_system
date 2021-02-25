@@ -27,11 +27,16 @@ router.post('/newBooking', async (req, res) => {
   }
   // convert date string to date object
   const formattedDate = new Date(date);
+  const hours = formattedDate.getHours();
+  const mins = formattedDate.getMinutes();
+  const time = `${hours}:${mins}`;
   // get bookings from client & stylist to add new booking to
   const { bookings } = foundStylist;
   const clientBookings = foundClient.bookings;
   // create new booking using date passed in, and assigning stylist & client
-  const booking = new Booking({ date: formattedDate, stylist: foundStylist._id, client: foundClient._id });
+  const booking = new Booking({
+    date: formattedDate, stylist: foundStylist._id, client: foundClient._id, time,
+  });
   // save booking
   const savedBooking = await booking.save();
   // add new booking to clients & stylists bookings list
@@ -50,7 +55,10 @@ router.get('/stylists/:stylistId', async (req, res) => {
   if (!foundStylist) {
     return res.status(400).send({ error: true, message: 'No stylist found for that id' });
   }
-  return res.status(200).send({ bookings: foundStylist.bookings });
+  const { bookings } = foundStylist;
+  const bookingObjects = await Booking.find({ _id: { $in: bookings } });
+  console.log('BO', bookingObjects);
+  return res.status(200).send({ bookings: bookingObjects });
 });
 
 router.post('/cancelBooking', async (req, res) => {
@@ -75,14 +83,15 @@ router.post('/cancelBooking', async (req, res) => {
   // error handle if no bookings for user
   const { bookings } = foundStylist;
   const clientBookings = foundClient.bookings;
-  if (bookings.length === 0 || clientBookings) {
-    return res.status(400).send({ error: true, message: 'No bookings found for client / stylist to remove' });
-  }
+  // if (bookings.length === 0) {
+  //   return res.status(400).send({ error: true, message: 'No bookings found for client / stylist to remove' });
+  // }
   // filter out booking to be deleted from users list of bookings
   const newBookings = bookings.filter((booking) => booking.toString() !== bookingId.toString());
+  const newClientBookings = clientBookings.filter((booking) => booking.toString() !== bookingId.toString());
   // update stylist & user with list of new bookings
   await Stylist.updateOne({ _id: stylistId }, { $set: { bookings: newBookings } });
-  await Client.updateOne({ _id: clientId }, { $set: { bookings: newBookings } });
+  await Client.updateOne({ _id: clientId }, { $set: { bookings: newClientBookings } });
   // delete booking
   await Booking.deleteOne({ _id: bookingId });
   // update response

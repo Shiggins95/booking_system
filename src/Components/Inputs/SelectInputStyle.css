@@ -17,6 +17,7 @@
   font-weight: bold;
   letter-spacing: 2px;
   background: #7affd4;
+  border: none;
 }
 .select_input_container .select_option:nth-child(2n+2) {
   background: #ffa6ca;

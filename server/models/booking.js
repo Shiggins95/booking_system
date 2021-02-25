@@ -5,6 +5,10 @@ const bookingSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
+  time: {
+    type: String,
+    required: true,
+  },
   stylist: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Stylist',

@@ -8,16 +8,23 @@ interface SelectOption {
 
 interface SelectInputProps {
     values: SelectOption[];
+    // eslint-disable-next-line no-unused-vars
+    onChange: (id: string|number) => void;
 }
 
-const SelectInput = ({ values }:SelectInputProps) => {
+const SelectInput = ({ values, onChange }:SelectInputProps) => {
   console.log('values: ', values);
   return (
     <div className="select_input_container">
       {values.map((option: SelectOption) => (
-        <div className="select_option" data-value={option.value}>
-          <p>{option.text}</p>
-        </div>
+        <button
+          type="button"
+          onClick={() => onChange(option.value)}
+          className="select_option"
+          data-value={option.value}
+        >
+          {option.text}
+        </button>
       ))}
     </div>
   );
