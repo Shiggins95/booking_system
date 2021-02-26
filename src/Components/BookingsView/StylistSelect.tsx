@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Booking } from '../../Redux/reducers/AvailabilityReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { UnmountClosed } from 'react-collapse';
+import { AvailabilityReducerState, Booking } from '../../Redux/reducers/AvailabilityReducer';
 import SelectInput from '../Inputs/SelectInput';
 import './StylistSelectStyles.css';
-import { _setAvailabilityBookings, _setAvailabilityStylist } from '../../Redux/actions';
-
-interface StylistSelectProps {
-    type: string;
-}
+import { _setAvailabilityBookings, _setAvailabilityStylist, _setAvailabilityType } from '../../Redux/actions';
+import { ReducerState } from '../../Redux/reducers';
+import { setValue } from '../../Helpers/LocalStorage';
 
 export interface Stylist {
   name: string;
@@ -18,10 +17,14 @@ export interface Stylist {
   _id: string;
 }
 
-const StylistSelect = ({ type }: StylistSelectProps) => {
+const StylistSelect = () => {
   // TODO - implement react collapsible to allow closing of this menu to make it look better
   const [stylists, setStylists] = useState<Stylist[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
+  const state = useSelector((s: ReducerState):AvailabilityReducerState => s.availability);
+  const { stylist } = state;
   const dispatch = useDispatch();
+  const { type } = state || '';
   console.log('style type: ', type);
   useEffect(() => {
     const url = `http://localhost:8080/stylists/${type}`;
@@ -36,12 +39,13 @@ const StylistSelect = ({ type }: StylistSelectProps) => {
       });
       return data.json();
     };
+    if (!type) return;
     getData().then((data) => {
       setStylists(data.stylists);
     });
-  }, []);
+  }, [type]);
   const handleChange = async (id: string|number) => {
-    const stylist = stylists.filter((s) => s._id === id)[0];
+    const currentStylist = stylists.filter((s) => s._id === id)[0];
     const headers = new Headers();
     let { REACT_APP_API_KEY } = process.env;
     if (!REACT_APP_API_KEY) REACT_APP_API_KEY = '';
@@ -51,18 +55,58 @@ const StylistSelect = ({ type }: StylistSelectProps) => {
     if (bookings.error) {
       console.log('error fetching bookings', bookings);
     }
-    dispatch(_setAvailabilityStylist({ stylist }));
+    dispatch(_setAvailabilityStylist({ stylist: currentStylist }));
     dispatch(_setAvailabilityBookings(bookings.bookings));
   };
-  const options = stylists.map((stylist) => ({ value: stylist._id, text: stylist.name }));
-  return (
+
+  const handleTypeChange = async (newType: string|number) => {
+    console.log('NEW TYPE', newType);
+    if (type === newType || !newType) return;
+    const headers = new Headers();
+    let { REACT_APP_API_KEY } = process.env;
+    if (!REACT_APP_API_KEY) REACT_APP_API_KEY = '';
+    headers.set('token', REACT_APP_API_KEY);
+    const newStylists = await fetch(`http://localhost:8080/stylists/${newType}`, { headers });
+    const data = await newStylists.json();
+    console.log('DATA: ', data);
+    setStylists(data.stylists);
+    dispatch(_setAvailabilityType({ type: newType.toString() }));
+    setValue({ key: 'LS_TYPE', value: newType.toString() });
+  };
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+  const options = stylists.map((s) => ({ value: s._id, text: s.name }));
+  return type ? (
     <div id="stylist_select">
-      <div className="header">
-        <h2>Select Stylist</h2>
+      <div className="open_button">
+        <button type="button" onClick={handleOpen}>{!open ? 'Select Stylist' : 'Close'}</button>
       </div>
-      <SelectInput onChange={handleChange} values={options} />
+      <UnmountClosed isOpened={open} className="content_expandable">
+        <div className="content">
+          <div className="header">
+            <h2>Stylist Type</h2>
+          </div>
+          <SelectInput
+            onChange={handleTypeChange}
+            values={[{ value: 'hair', text: 'Hair' }, { value: 'beauty', text: 'Beauty' }]}
+            currentValue={type}
+          />
+        </div>
+        <div className="content">
+          <div className="header">
+            <h2>
+              {type.substring(0, 1).toUpperCase() + type.substring(1, type.length)}
+              {' '}
+              Stylists
+            </h2>
+          </div>
+          <SelectInput onChange={handleChange} values={options} currentValue={stylist ? stylist._id : ''} />
+        </div>
+      </UnmountClosed>
     </div>
-  );
+  ) : null;
 };
 
 export default StylistSelect;

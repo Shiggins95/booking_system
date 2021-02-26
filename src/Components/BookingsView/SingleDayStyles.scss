@@ -40,18 +40,20 @@
       }
     }
     .booked {
-      background: $primary_color;
+      background: $secondary_color;
       // to hide slot
-      color: $primary_color;
-      border-color: $fourth_color;
+      color: $secondary_color;
+      border-color: $primary_color;
       font-weight: normal;
       &:hover{
         cursor: not-allowed;
       }
       &:active{
         transform: translateY(0);
+        outline-color: $primary_color;
       }
       &:focus {
+        //outline-color: $primary_color;
         outline: none;
       }
     }

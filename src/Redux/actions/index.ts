@@ -41,3 +41,11 @@ export const _setAvailabilityDisplay = (payload: ConfirmationPayloadObject):Conf
 export const _setAvailabilityStylist = (payload: PayloadObject):AvailabilityPayload => {
   return { type: 'SET_AVAILABILITY_STYLIST', payload };
 };
+
+export const _setAvailabilityType = (payload: PayloadObject):AvailabilityPayload => {
+  return { type: 'SET_AVAILABILITY_TYPE', payload };
+};
+
+export const _resetAvailabilityState = () => {
+  return { type: 'RESET_AVAILABILITY_STATE' };
+};
