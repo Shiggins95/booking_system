@@ -1,20 +1,25 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BookingsComponent from '../../Components/BookingsView/BookingsComponent';
-import { Booking, DateData, DateMapping } from '../../Redux/reducers/AvailabilityReducer';
+import { AvailabilityReducerState, DateData, DateMapping } from '../../Redux/reducers/AvailabilityReducer';
 import {
-  _setAvailabilityBookings, _setAvailabilityDates, _setNavbarOpen,
+  _resetAvailabilityState,
+  _setAvailabilityDates, _setAvailabilityType,
+  _setNavbarOpen,
 } from '../../Redux/actions';
 import './AvailabilityStyles.css';
 import ConfirmationPopup from '../../Components/Confirmation/ConfirmationPopup';
-import { MatchProps } from '../../Types';
 import StylistSelect from '../../Components/BookingsView/StylistSelect';
+import { ReducerState } from '../../Redux/reducers';
+import { getValue, setValue } from '../../Helpers/LocalStorage';
 
-const AvailabilityContainer = ({ match }: MatchProps) => {
-  const { type } = match.params;
+const AvailabilityContainer = () => {
+  let { type } = useSelector((state: ReducerState):AvailabilityReducerState => state.availability);
+  if (type === undefined) {
+    type = '';
+  }
   console.log('type: ', type);
   const dispatch = useDispatch();
-
   const getFullWeek = (date: Date, week: number, todaysDate: Date): DateData[] => {
     const originalDate = new Date(todaysDate);
     const day = date.getDay();
@@ -36,42 +41,30 @@ const AvailabilityContainer = ({ match }: MatchProps) => {
     }
     return dates;
   };
-  // @ts-ignore
   useEffect(() => {
-    const getData = async () => {
-      const dataRequest = await fetch('http://localhost:8080/bookings/');
-      const data = await dataRequest.json();
-      return data;
-    };
-    let mounted = true;
-    if (mounted) {
-      getData().then((res) => {
-        if (res.error) {
-          console.log('error', res.message);
-          return;
-        }
-        const data = res.map((r: Booking) => r);
-        dispatch(_setAvailabilityBookings(data));
-      });
-      const allDates: DateMapping = {};
-      const today = new Date();
-      today.setHours(23);
-      for (let thisWeek = 0; thisWeek < 5; thisWeek++) {
-        const date = new Date();
-        date.setDate(date.getDate() + (thisWeek * 7));
-        allDates[thisWeek] = getFullWeek(date, thisWeek, today);
-      }
-      dispatch(_setNavbarOpen());
-      dispatch(_setAvailabilityDates({ key: '', data: allDates }));
+    const allDates: DateMapping = {};
+    const today = new Date();
+    today.setHours(23);
+    for (let thisWeek = 0; thisWeek < 5; thisWeek++) {
+      const date = new Date();
+      date.setDate(date.getDate() + (thisWeek * 7));
+      allDates[thisWeek] = getFullWeek(date, thisWeek, today);
+    }
+    dispatch(_resetAvailabilityState());
+    dispatch(_setNavbarOpen());
+    dispatch(_setAvailabilityDates({ key: '', data: allDates }));
+    if (!type) {
+      type = getValue('LS_TYPE');
+      dispatch(_setAvailabilityType({ type }));
+    } else {
+      setValue({ key: 'LS_TYPE', value: type });
     }
     window.scrollTo(0, 0);
-    // eslint-disable-next-line no-return-assign
-    return () => mounted = false;
   }, []);
 
   return (
     <div id="availability_container">
-      <StylistSelect type={type} />
+      <StylistSelect />
       <BookingsComponent />
       <ConfirmationPopup />
     </div>

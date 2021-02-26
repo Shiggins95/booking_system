@@ -10,9 +10,10 @@ interface SelectInputProps {
     values: SelectOption[];
     // eslint-disable-next-line no-unused-vars
     onChange: (id: string|number) => void;
+    currentValue: string | number;
 }
 
-const SelectInput = ({ values, onChange }:SelectInputProps) => {
+const SelectInput = ({ values, onChange, currentValue }:SelectInputProps) => {
   console.log('values: ', values);
   return (
     <div className="select_input_container">
@@ -20,8 +21,9 @@ const SelectInput = ({ values, onChange }:SelectInputProps) => {
         <button
           type="button"
           onClick={() => onChange(option.value)}
-          className="select_option"
+          className={`select_option ${currentValue === option.value ? 'selected' : ''}`}
           data-value={option.value}
+          key={option.value}
         >
           {option.text}
         </button>

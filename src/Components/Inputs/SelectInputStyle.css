@@ -1,11 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 .select_input_container {
   width: 300px;
-  max-height: 250px;
-  display: grid;
-  background: #7affd4;
+  height: 250px;
   border: 2px solid #7affd4;
   overflow: scroll;
+  background: #ffa6ca;
 }
 .select_input_container .select_option {
   width: 100%;
@@ -16,18 +15,24 @@
   color: #ffa6ca;
   font-weight: bold;
   letter-spacing: 2px;
-  background: #7affd4;
+  background: #cbffee;
   border: none;
-}
-.select_input_container .select_option:nth-child(2n+2) {
-  background: #ffa6ca;
-  color: #7affd4;
+  border-bottom: 2px solid #ffa6ca;
+  transition: 0.05s ease;
 }
 .select_input_container .select_option:hover {
   cursor: pointer;
 }
 .select_input_container .select_option:active {
-  transform: translateY(1px);
+  outline: none;
+}
+.select_input_container .select_option:focus {
+  outline: none;
+}
+.select_input_container .selected {
+  background: #7affd4;
+  color: #ffa6ca;
+  border-bottom: 2px solid #ffa6ca;
 }
 
 /*# sourceMappingURL=SelectInputStyle.css.map */

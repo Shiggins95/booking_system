@@ -17,7 +17,7 @@ function App() {
       <div className="main">
         <Switch>
           <Route exact path="/" component={HomeContainer} />
-          <Route path="/availability/:type" component={AvailabilityContainer} />
+          <Route path="/availability/" component={AvailabilityContainer} />
           <Route component={NotFound} />
         </Switch>
       </div>
