@@ -24,3 +24,10 @@ export const _getMonth = ({ date }: DateParams) => {
   const month = months[date.getMonth()];
   return month.substring(0, 1).toUpperCase() + month.substring(1, month.length);
 };
+export const _formatDate = ({ date }: DateParams) => {
+  const day = _getDayOfWeek({ date });
+  const month = _getMonth({ date });
+  const calendarDate = date.getDate();
+  const year = date.getFullYear();
+  return `${day}, ${calendarDate} ${month} - ${year}`;
+};

@@ -1,4 +1,5 @@
 import { Stylist } from '../../Components/BookingsView/StylistSelect';
+import { setValue } from '../../Helpers/LocalStorage';
 
 export interface DateMapping {
     [key: number]: DateData[]
@@ -70,6 +71,7 @@ const AvailabilityReducer = (state: AvailabilityReducerState = startingState, ac
     case 'SET_AVAILABILITY_DATES':
       return { ...state, dates: data };
     case 'SET_AVAILABILITY_TYPE':
+      setValue({ key: 'LS_TYPE', value: payload.type || '' });
       return { ...state, type: payload.type };
     case 'SET_AVAILABILITY_BOOKINGS':
       return { ...state, bookings: payload };
@@ -83,7 +85,9 @@ const AvailabilityReducer = (state: AvailabilityReducerState = startingState, ac
     case 'SET_AVAILABILITY_STYLIST':
       return { ...state, stylist: payload.stylist };
     case 'RESET_AVAILABILITY_STATE':
-      return { ...startingState, type: state.type };
+      return {
+        ...state, bookings: [], index: 0, stylist: null, direction: 'left', selectedDate: null,
+      };
     default:
       return state;
   }

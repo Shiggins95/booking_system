@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 .single_week_container {
   grid-gap: 20px;
-  padding: 1vw 6vw;
+  padding: 10px 6vw;
   height: 100%;
   width: 100%;
   display: grid;
@@ -19,6 +19,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 .single_week_container .days_of_week {
   display: grid;
