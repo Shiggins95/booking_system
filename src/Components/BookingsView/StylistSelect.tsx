@@ -4,9 +4,13 @@ import { UnmountClosed } from 'react-collapse';
 import { AvailabilityReducerState, Booking } from '../../Redux/reducers/AvailabilityReducer';
 import SelectInput from '../Inputs/SelectInput';
 import './StylistSelectStyles.css';
-import { _setAvailabilityBookings, _setAvailabilityStylist, _setAvailabilityType } from '../../Redux/actions';
+import {
+  _resetAvailabilityState,
+  _setAvailabilityBookings,
+  _setAvailabilityStylist,
+  _setAvailabilityType,
+} from '../../Redux/actions';
 import { ReducerState } from '../../Redux/reducers';
-import { setValue } from '../../Helpers/LocalStorage';
 
 export interface Stylist {
   name: string;
@@ -70,8 +74,9 @@ const StylistSelect = () => {
     const data = await newStylists.json();
     console.log('DATA: ', data);
     setStylists(data.stylists);
+    dispatch(_resetAvailabilityState());
     dispatch(_setAvailabilityType({ type: newType.toString() }));
-    setValue({ key: 'LS_TYPE', value: newType.toString() });
+    dispatch(_setAvailabilityStylist({ stylist: null }));
   };
 
   const handleOpen = () => {

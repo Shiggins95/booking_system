@@ -11,7 +11,7 @@ import './AvailabilityStyles.css';
 import ConfirmationPopup from '../../Components/Confirmation/ConfirmationPopup';
 import StylistSelect from '../../Components/BookingsView/StylistSelect';
 import { ReducerState } from '../../Redux/reducers';
-import { getValue, setValue } from '../../Helpers/LocalStorage';
+import { getValue } from '../../Helpers/LocalStorage';
 
 const AvailabilityContainer = () => {
   let { type } = useSelector((state: ReducerState):AvailabilityReducerState => state.availability);
@@ -56,8 +56,6 @@ const AvailabilityContainer = () => {
     if (!type) {
       type = getValue('LS_TYPE');
       dispatch(_setAvailabilityType({ type }));
-    } else {
-      setValue({ key: 'LS_TYPE', value: type });
     }
     window.scrollTo(0, 0);
   }, []);

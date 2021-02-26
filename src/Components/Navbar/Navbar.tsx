@@ -45,9 +45,9 @@ const Navbar = ({ location: { pathname } }: MatchProps) => {
         <div className={pathname === '/availability' ? 'selected' : ''}>
           <Link to="/availability">Availability</Link>
         </div>
-        <div className={pathname === '/book' ? 'selected' : ''}>
-          <Link to="/book">Make a Booking</Link>
-        </div>
+        {/* <div className={pathname === '/book' ? 'selected' : ''}> */}
+        {/*  <Link to="/book">Make a Booking</Link> */}
+        {/* </div> */}
       </div>
       <div className="right">
         <div className={pathname === '/login' ? 'selected' : ''}>

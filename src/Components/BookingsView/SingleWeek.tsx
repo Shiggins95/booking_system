@@ -4,6 +4,7 @@ import { AvailabilityReducerState, DateData } from '../../Redux/reducers/Availab
 import SingleDay from './SingleDay';
 import './SingleWeekStyles.css';
 import { ReducerState } from '../../Redux/reducers';
+import { _formatDate } from '../../Helpers/Date';
 
 interface SingleWeekProps {
     dates: DateData[];
@@ -15,7 +16,9 @@ const SingleWeek = ({ dates }:SingleWeekProps) => {
   return dates && dates.length > 0 ? (
     <div className="single_week_container">
       <div className="title">
-        {`Week of ${dates[0].date}`}
+        {stylist ? `${stylist.name} Calendar` : ''}
+        <br />
+        {`Week of ${_formatDate({ date: dates[0].date })}`}
       </div>
       <div className="days_of_week">
         {dates.map((date, index) => <SingleDay key={index} date={date} display />)}
