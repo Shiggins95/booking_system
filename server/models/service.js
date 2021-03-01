@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
 
-const stylistSchema = mongoose.Schema({
+const ServiceSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  email: {
-    type: String,
+  price: {
+    type: Number,
     required: true,
   },
-  password: {
-    type: String,
+  stylists: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'Stylist',
     required: false,
   },
   bookings: {
@@ -18,15 +19,10 @@ const stylistSchema = mongoose.Schema({
     ref: 'Booking',
     required: false,
   },
-  type: {
+  category: {
     type: String,
-    required: true,
-  },
-  services: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Service',
     required: true,
   },
 });
 
-module.exports = mongoose.model('Stylist', stylistSchema);
+module.exports = mongoose.model('Service', ServiceSchema);
