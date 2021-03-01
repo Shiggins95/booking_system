@@ -12,6 +12,7 @@ import ConfirmationPopup from '../../Components/Confirmation/ConfirmationPopup';
 import StylistSelect from '../../Components/BookingsView/StylistSelect';
 import { ReducerState } from '../../Redux/reducers';
 import { getValue } from '../../Helpers/LocalStorage';
+import Services from '../../Components/BookingsView/Services';
 
 const AvailabilityContainer = () => {
   let { type } = useSelector((state: ReducerState):AvailabilityReducerState => state.availability);
@@ -65,6 +66,7 @@ const AvailabilityContainer = () => {
       <StylistSelect />
       <BookingsComponent />
       <ConfirmationPopup />
+      <Services />
     </div>
   );
 };

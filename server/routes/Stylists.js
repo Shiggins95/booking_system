@@ -1,12 +1,14 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const Stylist = require('../models/stylist');
+const Service = require('../models/service');
+const Booking = require('../models/booking');
 const { createToken } = require('../auth/token');
 const { validateCreate } = require('../auth/validation');
 
 router.post('/newStylist', async (req, res) => {
   const {
-    email, password, name, type,
+    email, password, name, type, services,
   } = req.body;
   // validate body using validation schema in validateCreate
   const { error } = validateCreate(req.body);
@@ -20,6 +22,21 @@ router.post('/newStylist', async (req, res) => {
   if (foundStylist) {
     return res.status(400).send({ error: true, message: 'Stylist exists' });
   }
+  const foundServices = await Service.find({ _id: { $in: services } });
+  if (!foundServices || (foundServices && foundServices.length === 0)) {
+    return res.status(400).send({ error: true, message: 'Services not found' });
+  }
+  let appropriateStylist = true;
+  foundServices.forEach((service) => {
+    const { category } = service;
+    if (category !== type) {
+      appropriateStylist = false;
+    }
+  });
+  console.log('appropriate', appropriateStylist);
+  if (!appropriateStylist) {
+    return res.status(400).send({ error: true, message: 'Type/Category mismatch for services' });
+  }
   // generate salt
   const salt = await bcrypt.genSalt();
   // hash password
@@ -30,29 +47,41 @@ router.post('/newStylist', async (req, res) => {
     password: hashPw,
     name,
     type,
+    services,
   });
   try {
     // save user
     const savedStylist = await user.save();
+    for (const service of foundServices) {
+      console.log(service);
+      const { stylists } = service;
+      stylists.push(savedStylist._id);
+      await Service.updateOne({ _id: service._id }, { $set: { stylists } });
+    }
     // generate token for user id
     const token = createToken({ _id: savedStylist._id });
     // update response
     return res.status(200).send({ token });
   } catch (e) {
     // return error if thrown
-    return res.status(400).send(e);
+    return res.status(400).send({ error: true, message: e });
   }
 });
 
 router.get('/getStylist/:stylistId', async (req, res) => {
   // find user
-  const foundStylist = await Stylist.findOne({ _id: req.params.stylistId });
+  const foundStylist = await Stylist
+    .findOne({ _id: req.params.stylistId })
+    .populate({ path: 'services', model: 'Service' })
+    .populate({ path: 'bookings', model: 'Booking' });
+  console.log('found: ', foundStylist);
   // return error if not found
   if (!foundStylist) {
     return res.status(400).send({ error: true, message: 'Stylist not found' });
   }
+
   // return new token with user id
-  return res.status(200).send({ token: createToken({ _id: foundStylist._id }), user: foundStylist });
+  return res.status(200).send({ user: foundStylist });
 });
 
 router.get('/hair', async (req, res) => {

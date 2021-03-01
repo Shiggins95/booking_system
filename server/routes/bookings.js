@@ -3,13 +3,18 @@ const router = require('express').Router();
 const Stylist = require('../models/stylist');
 const Booking = require('../models/booking');
 const Client = require('../models/client');
+const Service = require('../models/service');
 
 router.get('/', (req, res) => {
   res.send([]);
 });
 
 router.post('/newBooking', async (req, res) => {
-  const { body: { date, clientId, stylistId } } = req;
+  const {
+    body: {
+      date, clientId, stylistId, serviceId,
+    },
+  } = req;
   // return error if missing param
   if (!clientId || !stylistId || !date) {
     return res.status(400).send({ error: true, message: 'Missing required parameter. Please check request body' });
@@ -25,26 +30,38 @@ router.post('/newBooking', async (req, res) => {
   if (!foundClient) {
     return res.status(400).send({ error: true, message: 'Client not found' });
   }
+
+  const foundService = await Service.findOne({ _id: serviceId });
+  if (!foundService) {
+    return res.status(400).send({ error: true, message: 'Service not found' });
+  }
   // convert date string to date object
   const formattedDate = new Date(date);
   const hours = formattedDate.getHours();
   const mins = formattedDate.getMinutes();
   const time = `${hours}:${mins}`;
   // get bookings from client & stylist to add new booking to
-  const { bookings } = foundStylist;
+  const { bookings, type } = foundStylist;
   const clientBookings = foundClient.bookings;
+  const serviceBookings = foundService.bookings;
+  const { category } = foundService;
+  if (category !== type) {
+    return res.status(400).send({ error: true, message: 'Type/Category mismatch for services' });
+  }
   // create new booking using date passed in, and assigning stylist & client
   const booking = new Booking({
-    date: formattedDate, stylist: foundStylist._id, client: foundClient._id, time,
+    date: formattedDate, stylist: foundStylist._id, client: foundClient._id, time, service: foundService._id,
   });
   // save booking
   const savedBooking = await booking.save();
-  // add new booking to clients & stylists bookings list
+  // add new booking to clients & stylists & service bookings list
   bookings.push(savedBooking._id);
   clientBookings.push(savedBooking._id);
+  serviceBookings.push(savedBooking._id);
   // update user with new bookings
   await Stylist.updateOne({ _id: stylistId }, { $set: { bookings } });
-  await Client.updateOne({ _id: foundClient._id }, { $set: { bookings } });
+  await Client.updateOne({ _id: foundClient._id }, { $set: { bookings: clientBookings } });
+  await Service.updateOne({ _id: foundService._id }, { $set: { bookings: serviceBookings } });
   // update response
   return res.send({ bookingId: savedBooking._id });
 });
