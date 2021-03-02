@@ -12,11 +12,17 @@ import {
 } from '../../Redux/actions';
 import { ReducerState } from '../../Redux/reducers';
 
+export interface Service {
+  _id: string;
+  price: number;
+  name: string;
+}
 export interface Stylist {
   name: string;
   email: string;
   password: string;
   bookings: Booking[];
+  services: Service[];
   type: string;
   _id: string;
 }
@@ -49,6 +55,7 @@ const StylistSelect = () => {
     });
   }, [type]);
   const handleChange = async (id: string|number) => {
+    debugger;
     const currentStylist = stylists.filter((s) => s._id === id)[0];
     const headers = new Headers();
     let { REACT_APP_API_KEY } = process.env;

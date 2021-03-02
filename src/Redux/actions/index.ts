@@ -5,6 +5,7 @@ import {
   PayloadObject,
 } from '../reducers/AvailabilityReducer';
 import { ConfirmationPayloadAction, ConfirmationPayloadObject } from '../reducers/ConfirmationPopupReducer';
+import { FormAction, ValueSettingPayload } from '../reducers/ConfirmationFormReducer';
 
 export const _setNavbarOpen = (): Action => ({
   type: 'NAVBAR_SET_OPEN',
@@ -48,4 +49,11 @@ export const _setAvailabilityType = (payload: PayloadObject):AvailabilityPayload
 
 export const _resetAvailabilityState = () => {
   return { type: 'RESET_AVAILABILITY_STATE' };
+};
+
+export const _setConfirmationFormValue = (payload: ValueSettingPayload): FormAction => {
+  return { type: 'SET_CONFIRMATION_FORM_VALUE', payload };
+};
+export const _resetConfirmationFormValue = (payload: ValueSettingPayload): FormAction => {
+  return { type: 'RESET_CONFIRMATION_FORM', payload };
 };

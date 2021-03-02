@@ -85,12 +85,16 @@ router.get('/getStylist/:stylistId', async (req, res) => {
 });
 
 router.get('/hair', async (req, res) => {
-  const hairStylists = await Stylist.find({ type: 'hair' });
+  const hairStylists = await Stylist.find({ type: 'hair' })
+    .populate({ path: 'services', model: 'Service' })
+    .populate({ path: 'bookings', model: 'Booking' });
   return res.status(200).send({ stylists: hairStylists });
 });
 
 router.get('/beauty', async (req, res) => {
-  const beautyStylists = await Stylist.find({ type: 'beauty' });
+  const beautyStylists = await Stylist.find({ type: 'beauty' })
+    .populate({ path: 'services', model: 'Service' })
+    .populate({ path: 'bookings', model: 'Booking' });
   return res.status(200).send({ stylists: beautyStylists });
 });
 

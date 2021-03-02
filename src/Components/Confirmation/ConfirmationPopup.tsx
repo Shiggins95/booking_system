@@ -9,6 +9,7 @@ import './ConfirmationPopupStyles.css';
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './PaymentPage';
 import { _setAvailabilityDisplay, _setAvailabilitySelectedDate } from '../../Redux/actions';
+import ServiceSelect from './ServiceSelect';
 
 interface StateProps {
     index: number,
@@ -35,7 +36,7 @@ const ConfirmationPopup = () => {
     index.current = 0;
   }, []);
 
-  const dates = [ConfirmationPage, PaymentPage];
+  const dates = [ServiceSelect, ConfirmationPage, PaymentPage];
 
   const next = () => {
     if (index.current === Object.keys(dates).length - 1) {
