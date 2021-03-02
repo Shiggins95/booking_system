@@ -1,5 +1,6 @@
 @import "../../StyleDefaults/variables";
 @import "../../StyleDefaults/mixins";
+@import "./SimilarStyles";
 
 #confirmation_page{
   width: 100%;
@@ -32,18 +33,6 @@
       padding: 20px 50px;
     }
   }
-  .footer {
-    display: flex;
-    justify-content: flex-end;
-    padding: 20px;
-    button {
-      width: 150px;
-      border: 2px solid $secondary_color;
-      color: $secondary_color;
-      background: $fourth_color;
-      font-weight: 900;
-      letter-spacing: 5px;
-      cursor: pointer;
-    }
-  }
+
+  @include footer;
 }
