@@ -8,6 +8,7 @@ const usersRouter = require('./routes/Stylists');
 const { verifyToken } = require('./auth/token');
 const clientsRouter = require('./routes/clients');
 const servicesRouter = require('./routes/services');
+const paymentsRouter = require('./routes/payments');
 require('dotenv').config();
 
 const app = express();
@@ -38,6 +39,7 @@ app.use('/token', tokensRouter);
 app.use('/stylists', usersRouter);
 app.use('/clients', clientsRouter);
 app.use('/services', servicesRouter);
+app.use('/payments', paymentsRouter);
 app.get('/*', (req, res) => {
   res.status(404).send({ error: true, message: 'NOT_FOUND' });
 });
