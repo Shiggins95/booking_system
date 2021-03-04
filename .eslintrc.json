@@ -31,7 +31,8 @@
         "no-plusplus": "off",
         "max-len": ["error", { "code": 120 }],
         "react/no-array-index-key": "off",
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "react/require-default-props": "off"
     },
     "settings": {
         "import/resolver": {

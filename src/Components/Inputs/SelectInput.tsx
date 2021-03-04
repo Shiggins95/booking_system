@@ -12,9 +12,8 @@ interface SelectInputProps {
     onChange: (id: string|number) => void;
     currentValue: string | number;
 }
-
+// eslint-disable-next-line arrow-body-style
 const SelectInput = ({ values, onChange, currentValue }:SelectInputProps) => {
-  console.log('values: ', values);
   return (
     <div className="select_input_container">
       {values.map((option: SelectOption) => (

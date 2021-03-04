@@ -7,10 +7,18 @@ import {
   StripeCardCvcElementChangeEvent,
   StripeCardExpiryElementChangeEvent, StripeCardNumberElementChangeEvent,
 } from '@stripe/stripe-js';
+import { useSelector } from 'react-redux';
 import SuccessfulPayment from './SuccessfulPayment';
+import { ReducerState } from '../../Redux/reducers';
+import { ConfirmationFormState } from '../../Redux/reducers/ConfirmationFormReducer';
+import { get, post } from '../../Helpers/Requests';
 
-const CheckoutForm = () => {
-  console.log('checkout');
+interface CheckoutFormProps {
+  back: () => void;
+}
+
+const CheckoutForm = ({ back }: CheckoutFormProps) => {
+  const { service, name, email } = useSelector((state: ReducerState):ConfirmationFormState => state.confirmForm);
   const stripe = useStripe();
   const elements = useElements();
   const [succeeded, setSucceeded] = useState<boolean>(false);
@@ -18,21 +26,21 @@ const CheckoutForm = () => {
   const [processing, setProcessing] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(true);
   const [clientSecret, setClientSecret] = useState<string>('');
+  const [ready, setReady] = useState<boolean>(false);
 
   useEffect(() => {
-    const headers = new Headers();
-    let { REACT_APP_API_KEY } = process.env;
-    if (!REACT_APP_API_KEY) REACT_APP_API_KEY = '';
-    headers.set('token', REACT_APP_API_KEY);
-    headers.set('Content-Type', 'application/json');
-    fetch('http://localhost:8080/payments/create_payment_intent', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ items: [{ id: 'xl-tshirt' }] }),
-    }).then((res) => res.json()).then((data) => {
+    if (!ready) {
+      return;
+    }
+    const url = 'payments/create_payment_intent';
+    post({
+      url,
+      body: { items: [{ id: service }], email },
+    }).then((data) => {
       setClientSecret(data.clientSecret);
+      setReady(false);
     });
-  }, []);
+  }, [ready]);
 
   // eslint-disable-next-line max-len
   const handleChange = async (event: StripeCardNumberElementChangeEvent|StripeCardCvcElementChangeEvent|StripeCardExpiryElementChangeEvent) => {
@@ -41,8 +49,14 @@ const CheckoutForm = () => {
   };
 
   const handleSubmit = async (event: any) => {
+    /*  TODO
+     *  create customer object in stripe
+     *  link to customer object in mongoDB via new column called stripe_id
+     *  add address fields to payments wizard
+    */
     event.preventDefault();
     setProcessing(true);
+
     const card = elements?.getElement(CardNumberElement);
     if (!card) {
       setError('Card not declared');
@@ -54,6 +68,7 @@ const CheckoutForm = () => {
         card,
       },
     });
+    console.log('PAYLOAD', payload);
     if (!payload) {
       setError('Payment failed');
       setProcessing(false);
@@ -61,6 +76,8 @@ const CheckoutForm = () => {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
     } else {
+      const id = payload.paymentIntent ? payload.paymentIntent.id : '';
+      console.log('id: ', id);
       setError('');
       setProcessing(false);
       setSucceeded(true);
@@ -107,6 +124,9 @@ const CheckoutForm = () => {
             className="card_element"
             options={elementOptions}
             onChange={handleChange}
+            onReady={(element) => {
+              element.focus();
+            }}
           />
         </div>
         <div className="element el1">
@@ -123,11 +143,12 @@ const CheckoutForm = () => {
             className="card_security"
             options={elementOptions}
             onChange={handleChange}
+            onReady={() => setReady(true)}
           />
         </div>
       </div>
       <div className="footer">
-        <button type="button" onClick={() => console.log('back')}>Back</button>
+        <button type="button" onClick={back}>Back</button>
         <button type="button" onClick={handleSubmit}>Submit</button>
       </div>
       {errorOccurred && (

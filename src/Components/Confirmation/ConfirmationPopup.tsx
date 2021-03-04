@@ -8,8 +8,9 @@ import { ReducerState } from '../../Redux/reducers';
 import './ConfirmationPopupStyles.css';
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './PaymentPage';
-import { _setAvailabilityDisplay, _setAvailabilitySelectedDate } from '../../Redux/actions';
+import { _resetConfirmationFormValue, _setAvailabilityDisplay, _setAvailabilitySelectedDate } from '../../Redux/actions';
 import ServiceSelect from './ServiceSelect';
+import { ConfirmationFormState } from '../../Redux/reducers/ConfirmationFormReducer';
 
 interface StateProps {
     index: number,
@@ -23,6 +24,7 @@ export interface PageProps {
 
 const ConfirmationPopup = () => {
   const { display } = useSelector((state: ReducerState) => state.confirmation);
+  const confirmationForm = useSelector((state: ReducerState):ConfirmationFormState => state.confirmForm);
   const index = useRef(0);
   const direction = useRef('left');
   const dispatch = useDispatch();
@@ -42,12 +44,29 @@ const ConfirmationPopup = () => {
     if (index.current === Object.keys(dates).length - 1) {
       return;
     }
+    const indexMapping = [
+      ['service'],
+      ['name', 'email'],
+    ];
     try {
+      const missingFields: string[] = [];
+      let canProceed = true;
+      indexMapping[index.current].forEach((field) => {
+        if (!confirmationForm[field]) {
+          canProceed = false;
+          missingFields.push(`"${field}"`);
+        }
+      });
+      if (!canProceed) {
+        // TODO: custom error popup message box
+        alert(`Missing required fields:\n ${missingFields.join('\n')}`);
+        return;
+      }
       index.current += 1;
       direction.current = 'left';
       dispatch(_setAvailabilityDisplay({ display: true }));
     } catch (e) {
-      console.log('error: ', e);
+      console.error('error: ', e);
     }
   };
 
@@ -60,12 +79,13 @@ const ConfirmationPopup = () => {
     try {
       dispatch(_setAvailabilityDisplay({ display: true }));
     } catch (e) {
-      console.log('error: ', e);
+      console.error('error: ', e);
     }
   };
 
   const close = () => {
     index.current = 0;
+    dispatch(_resetConfirmationFormValue());
     dispatch(_setAvailabilityDisplay({ display: false }));
   };
 

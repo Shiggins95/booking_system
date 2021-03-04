@@ -1,5 +1,5 @@
 export interface ConfirmationFormState {
-    service: string;
+    [service: string]: string;
     name: string;
     email: string;
     ccno: string;
@@ -23,7 +23,7 @@ export interface ValueSettingPayload {
 
 export interface FormAction {
     type: string;
-    payload: ValueSettingPayload;
+    payload?: ValueSettingPayload;
 }
 
 const ConfirmationFormReducer = (state: ConfirmationFormState = startingState, action: FormAction) => {

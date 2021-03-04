@@ -20,7 +20,6 @@ const BookingsComponent = () => {
     direction: 'left',
   });
   const { stylist } = useSelector((s: ReducerState):AvailabilityReducerState => s.availability);
-  console.log('CURRENT STYLIST', stylist);
 
   const { index, direction } = state;
 

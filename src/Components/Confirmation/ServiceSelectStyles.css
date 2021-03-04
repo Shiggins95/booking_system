@@ -22,6 +22,9 @@
   justify-content: center;
   align-items: center;
 }
+.select_service_container .content .select_input_container {
+  border: 2px solid #ffa6ca;
+}
 .select_service_container .footer {
   display: flex;
   justify-content: flex-end;
