@@ -19,7 +19,6 @@ const AvailabilityContainer = () => {
   if (type === undefined) {
     type = '';
   }
-  console.log('type: ', type);
   const dispatch = useDispatch();
   const getFullWeek = (date: Date, week: number, todaysDate: Date): DateData[] => {
     const originalDate = new Date(todaysDate);

@@ -54,6 +54,6 @@ export const _resetAvailabilityState = () => {
 export const _setConfirmationFormValue = (payload: ValueSettingPayload): FormAction => {
   return { type: 'SET_CONFIRMATION_FORM_VALUE', payload };
 };
-export const _resetConfirmationFormValue = (payload: ValueSettingPayload): FormAction => {
-  return { type: 'RESET_CONFIRMATION_FORM', payload };
+export const _resetConfirmationFormValue = (): FormAction => {
+  return { type: 'RESET_CONFIRMATION_FORM' };
 };

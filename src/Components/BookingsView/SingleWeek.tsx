@@ -12,7 +12,6 @@ interface SingleWeekProps {
 
 const SingleWeek = ({ dates }:SingleWeekProps) => {
   const { stylist } = useSelector((s: ReducerState):AvailabilityReducerState => s.availability);
-  console.log('CURRENT STYLIST', stylist);
   return dates && dates.length > 0 ? (
     <div className="single_week_container">
       <div className="title">

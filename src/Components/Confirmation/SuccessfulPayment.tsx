@@ -6,14 +6,13 @@ interface SuccessfulPaymentProps {
 }
 
 const SuccessfulPayment = ({ display }: SuccessfulPaymentProps) => {
-  console.log('success');
   const props = useSpring({
     opacity: display ? 1 : 0,
     top: display ? 0 : -50,
   });
   useEffect(() => {
     setTimeout(() => {
-      window.location.reload();
+      // window.location.reload();
     }, 5000);
   }, []);
   return (

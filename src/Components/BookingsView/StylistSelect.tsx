@@ -11,6 +11,7 @@ import {
   _setAvailabilityType,
 } from '../../Redux/actions';
 import { ReducerState } from '../../Redux/reducers';
+import { get } from '../../Helpers/Requests';
 
 export interface Service {
   _id: string;
@@ -28,59 +29,34 @@ export interface Stylist {
 }
 
 const StylistSelect = () => {
-  // TODO - implement react collapsible to allow closing of this menu to make it look better
   const [stylists, setStylists] = useState<Stylist[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const state = useSelector((s: ReducerState):AvailabilityReducerState => s.availability);
   const { stylist } = state;
   const dispatch = useDispatch();
   const { type } = state || '';
-  console.log('style type: ', type);
   useEffect(() => {
-    const url = `http://localhost:8080/stylists/${type}`;
-    console.log(url);
-    const getData = async () => {
-      const headers = new Headers();
-      let { REACT_APP_API_KEY } = process.env;
-      if (!REACT_APP_API_KEY) REACT_APP_API_KEY = '';
-      headers.set('token', REACT_APP_API_KEY);
-      const data = await fetch(url, {
-        headers,
-      });
-      return data.json();
-    };
+    const url = `stylists/${type}`;
     if (!type) return;
-    getData().then((data) => {
+    get({ url }).then((data) => {
       setStylists(data.stylists);
     });
   }, [type]);
+
   const handleChange = async (id: string|number) => {
-    debugger;
     const currentStylist = stylists.filter((s) => s._id === id)[0];
-    const headers = new Headers();
-    let { REACT_APP_API_KEY } = process.env;
-    if (!REACT_APP_API_KEY) REACT_APP_API_KEY = '';
-    headers.set('token', REACT_APP_API_KEY);
-    const bookingsForStylist = await fetch(`http://localhost:8080/bookings/stylists/${id}`, { headers });
-    const bookings = await bookingsForStylist.json();
+    const bookings = await get({ url: `bookings/stylists/${id}` });
     if (bookings.error) {
-      console.log('error fetching bookings', bookings);
+      console.error('error fetching bookings', bookings);
     }
     dispatch(_setAvailabilityStylist({ stylist: currentStylist }));
     dispatch(_setAvailabilityBookings(bookings.bookings));
   };
 
   const handleTypeChange = async (newType: string|number) => {
-    console.log('NEW TYPE', newType);
     if (type === newType || !newType) return;
-    const headers = new Headers();
-    let { REACT_APP_API_KEY } = process.env;
-    if (!REACT_APP_API_KEY) REACT_APP_API_KEY = '';
-    headers.set('token', REACT_APP_API_KEY);
-    const newStylists = await fetch(`http://localhost:8080/stylists/${newType}`, { headers });
-    const data = await newStylists.json();
-    console.log('DATA: ', data);
-    setStylists(data.stylists);
+    const newStylists = await get({ url: `stylists/${newType}` });
+    setStylists(newStylists.stylists);
     dispatch(_resetAvailabilityState());
     dispatch(_setAvailabilityType({ type: newType.toString() }));
     dispatch(_setAvailabilityStylist({ stylist: null }));
