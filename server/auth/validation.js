@@ -12,7 +12,6 @@ const validateCreate = (body) => creationSchema.validate(body);
 
 const clientCreationSchema = Joi.object({
   name: Joi.string().required(),
-  phoneNumber: Joi.string().required(),
   email: Joi.string().min(6).email().required(),
 });
 
