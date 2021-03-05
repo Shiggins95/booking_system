@@ -27,6 +27,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
   const [disabled, setDisabled] = useState<boolean>(true);
   const [clientSecret, setClientSecret] = useState<string>('');
   const [ready, setReady] = useState<boolean>(false);
+  const [intentId, setIntentId] = useState<string>('');
 
   useEffect(() => {
     if (!ready) {
@@ -38,6 +39,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
       body: { items: [{ id: service }], email },
     }).then((data) => {
       setClientSecret(data.clientSecret);
+      setIntentId(data.intentId);
       setReady(false);
     });
   }, [ready]);
@@ -49,26 +51,48 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
   };
 
   const handleSubmit = async (event: any) => {
-    /*  TODO
-     *  create customer object in stripe
-     *  link to customer object in mongoDB via new column called stripe_id
-     *  add address fields to payments wizard
-    */
     event.preventDefault();
     setProcessing(true);
+    // check if client exists
+    const existingClient = await get({ url: `clients/getClient/${email}` });
+    // if client exists, set stripe id - else create client and set stripe id
+    let stripeId = '';
+    if (!existingClient.error) {
+      stripeId = existingClient.stripeId;
+    } else {
+      const newClient = await post({
+        url: 'clients/newClient',
+        body: {
+          name,
+          email,
+        },
+      });
+      stripeId = newClient.stripeId;
+    }
 
+    // update payment intent with stripe id as this wasn't available in the use effect
+    await post({
+      url: 'payments/update_payment_intent',
+      body: {
+        customer: stripeId,
+        intentId,
+      },
+    });
+
+    // get card from form and trigger error if not available
     const card = elements?.getElement(CardNumberElement);
     if (!card) {
       setError('Card not declared');
       setProcessing(false);
       return;
     }
+    // confirm the card payment
     const payload = await stripe?.confirmCardPayment(clientSecret, {
       payment_method: {
         card,
       },
     });
-    console.log('PAYLOAD', payload);
+    // error handling
     if (!payload) {
       setError('Payment failed');
       setProcessing(false);
@@ -76,8 +100,8 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
     } else {
+      // if successful complete the journey and set succeeded to true to show banner
       const id = payload.paymentIntent ? payload.paymentIntent.id : '';
-      console.log('id: ', id);
       setError('');
       setProcessing(false);
       setSucceeded(true);

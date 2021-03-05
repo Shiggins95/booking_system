@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Client = require('../models/client');
+const { createStripeCustomer } = require('../payments/stripe');
 const { validateClientCreate } = require('../auth/validation');
 
 router.get('/getClient/:clientEmail', async (req, res) => {
@@ -8,7 +9,7 @@ router.get('/getClient/:clientEmail', async (req, res) => {
   if (!foundClient) {
     return res.status(400).send({ error: true, message: 'client not found' });
   }
-  return res.status(200).send({ error: false, client: foundClient });
+  return res.status(200).send({ error: false, client: foundClient, stripeId: foundClient.stripeId });
 });
 
 router.post('/newClient', async (req, res) => {
@@ -24,12 +25,18 @@ router.post('/newClient', async (req, res) => {
     return res.status(400).send({ error: true, message: error.details });
   }
 
-  const newClient = new Client({ email, phoneNumber, name });
+  const { id } = await createStripeCustomer({ email, name, description: `${name} ${email}` });
+
+  const newClient = new Client({
+    email, phoneNumber, name, stripeId: id,
+  });
 
   try {
     // save user
     const savedClient = await newClient.save();
-    return res.status(200).send({ error: false, message: 'client created', id: savedClient._id });
+    return res.status(200).send({
+      error: false, message: 'client created', id: savedClient._id, stripeId: id,
+    });
   } catch (e) {
     // return error if thrown
     return res.status(400).send(e);
