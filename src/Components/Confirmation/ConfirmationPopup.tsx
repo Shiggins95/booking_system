@@ -58,7 +58,7 @@ const ConfirmationPopup = () => {
         }
       });
       if (!canProceed) {
-        // TODO: custom error popup message box
+        // TODO: custom error popup message box - create custom error popup
         alert(`Missing required fields:\n ${missingFields.join('\n')}`);
         return;
       }
