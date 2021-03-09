@@ -7,11 +7,14 @@ import {
   StripeCardCvcElementChangeEvent,
   StripeCardExpiryElementChangeEvent, StripeCardNumberElementChangeEvent,
 } from '@stripe/stripe-js';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Simulate } from 'react-dom/test-utils';
 import SuccessfulPayment from './SuccessfulPayment';
 import { ReducerState } from '../../Redux/reducers';
 import { ConfirmationFormState } from '../../Redux/reducers/ConfirmationFormReducer';
 import { get, post } from '../../Helpers/Requests';
+import ErrorModal from '../Modals/ErrorModal';
+import { _setModalsDisplay } from '../../Redux/actions';
 
 interface CheckoutFormProps {
   back: () => void;
@@ -28,6 +31,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
   const [clientSecret, setClientSecret] = useState<string>('');
   const [ready, setReady] = useState<boolean>(false);
   const [intentId, setIntentId] = useState<string>('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!ready) {
@@ -99,6 +103,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
     } else if (payload.error) {
       setError(`Payment failed ${payload.error.message}`);
       setProcessing(false);
+      dispatch(_setModalsDisplay({ display: true, type: 'payment' }));
     } else {
       // if successful complete the journey and set succeeded to true to show banner
       const id = payload.paymentIntent ? payload.paymentIntent.id : '';
@@ -150,6 +155,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
             onChange={handleChange}
             onReady={(element) => {
               element.focus();
+              setReady(true);
             }}
           />
         </div>
@@ -167,7 +173,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
             className="card_security"
             options={elementOptions}
             onChange={handleChange}
-            onReady={() => setReady(true)}
+            // onReady={() => setReady(true)}
           />
         </div>
       </div>
@@ -175,11 +181,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
         <button type="button" onClick={back}>Back</button>
         <button type="button" onClick={handleSubmit}>Submit</button>
       </div>
-      {errorOccurred && (
-      <div className="card_error">
-        {errorOccurred}
-      </div>
-      )}
+      <ErrorModal message={errorOccurred} type="payment" display={errorOccurred !== ''} />
       {succeeded && <SuccessfulPayment display={succeeded} />}
     </form>
   );

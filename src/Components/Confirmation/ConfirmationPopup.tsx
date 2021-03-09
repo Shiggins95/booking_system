@@ -4,13 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { animated, useTransition } from 'react-spring';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Simulate } from 'react-dom/test-utils';
 import { ReducerState } from '../../Redux/reducers';
 import './ConfirmationPopupStyles.css';
 import ConfirmationPage from './ConfirmationPage';
 import PaymentPage from './PaymentPage';
-import { _resetConfirmationFormValue, _setAvailabilityDisplay, _setAvailabilitySelectedDate } from '../../Redux/actions';
+import {
+  _resetConfirmationFormValue,
+  _setAvailabilityDisplay,
+  _setAvailabilitySelectedDate,
+  _setModalsDisplay,
+} from '../../Redux/actions';
 import ServiceSelect from './ServiceSelect';
 import { ConfirmationFormState } from '../../Redux/reducers/ConfirmationFormReducer';
+import ErrorModal from '../Modals/ErrorModal';
 
 interface StateProps {
     index: number,
@@ -25,6 +32,7 @@ export interface PageProps {
 const ConfirmationPopup = () => {
   const { display } = useSelector((state: ReducerState) => state.confirmation);
   const confirmationForm = useSelector((state: ReducerState):ConfirmationFormState => state.confirmForm);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const index = useRef(0);
   const direction = useRef('left');
   const dispatch = useDispatch();
@@ -37,6 +45,14 @@ const ConfirmationPopup = () => {
   useEffect(() => () => {
     index.current = 0;
   }, []);
+
+  useEffect(() => {
+    if (errorMessage !== '') {
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 2000);
+    }
+  }, [errorMessage]);
 
   const dates = [ServiceSelect, ConfirmationPage, PaymentPage];
 
@@ -59,7 +75,9 @@ const ConfirmationPopup = () => {
       });
       if (!canProceed) {
         // TODO: custom error popup message box - create custom error popup
-        alert(`Missing required fields:\n ${missingFields.join('\n')}`);
+        // alert(`Missing required fields:\n ${missingFields.join('\n')}`);
+        setErrorMessage(`Missing required fields:\n ${missingFields.join(', ')}`);
+        // dispatch(_setModalsDisplay({ type: 'validation', display: true }));
         return;
       }
       index.current += 1;
@@ -102,6 +120,7 @@ const ConfirmationPopup = () => {
             style={{ ...props }}
           >
             {React.createElement(dates[index.current], { next, back })}
+            <ErrorModal message={errorMessage} type="validation" display={errorMessage !== ''} />
           </animated.div>
         ))}
       </div>
