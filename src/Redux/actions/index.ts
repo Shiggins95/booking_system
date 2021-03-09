@@ -6,6 +6,7 @@ import {
 } from '../reducers/AvailabilityReducer';
 import { ConfirmationPayloadAction, ConfirmationPayloadObject } from '../reducers/ConfirmationPopupReducer';
 import { FormAction, ValueSettingPayload } from '../reducers/ConfirmationFormReducer';
+import { ModalsReducerPayload } from '../reducers/ModalsReducer';
 
 export const _setNavbarOpen = (): Action => ({
   type: 'NAVBAR_SET_OPEN',
@@ -56,4 +57,17 @@ export const _setConfirmationFormValue = (payload: ValueSettingPayload): FormAct
 };
 export const _resetConfirmationFormValue = (): FormAction => {
   return { type: 'RESET_CONFIRMATION_FORM' };
+};
+
+export const _setModalsDisplay = (payload: ModalsReducerPayload) => {
+  return {
+    type: 'SET_MODAL_DISPLAY',
+    payload,
+  };
+};
+
+export const _closeModal = () => {
+  return {
+    type: 'CLOSE_MODAL',
+  };
 };

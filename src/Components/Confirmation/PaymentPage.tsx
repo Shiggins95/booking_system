@@ -18,5 +18,4 @@ const PaymentPage = ({ back }: PageProps) => (
     </Elements>
   </div>
 );
-
 export default PaymentPage;
