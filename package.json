@@ -22,6 +22,7 @@
     "@types/react-router": "^5.1.11",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-stripe-elements": "^6.0.4",
+    "emailjs-com": "^2.6.4",
     "nodemon": "^2.0.7",
     "react": "^17.0.1",
     "react-collapse": "^5.1.0",

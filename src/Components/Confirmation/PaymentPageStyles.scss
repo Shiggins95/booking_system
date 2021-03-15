@@ -18,6 +18,9 @@
       color: $primary_color;
       font-weight: 500;
       @include flexCenterRow;
+      p{
+        text-align: center;
+      }
       a {
         color: $secondary_color;
       }

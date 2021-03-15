@@ -1,0 +1,1 @@
+rsync -av -e "ssh -i /Users/stephenhiggins/.ssh/cofficient_digiocean_rsa" ~/Documents/myProjects/web_dev/booking_system/build/* stephen@138.68.142.78:/home/stephen/booking_system

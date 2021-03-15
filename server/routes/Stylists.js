@@ -33,7 +33,6 @@ router.post('/newStylist', async (req, res) => {
       appropriateStylist = false;
     }
   });
-  console.log('appropriate', appropriateStylist);
   if (!appropriateStylist) {
     return res.status(400).send({ error: true, message: 'Type/Category mismatch for services' });
   }
@@ -53,7 +52,6 @@ router.post('/newStylist', async (req, res) => {
     // save user
     const savedStylist = await user.save();
     for (const service of foundServices) {
-      console.log(service);
       const { stylists } = service;
       stylists.push(savedStylist._id);
       await Service.updateOne({ _id: service._id }, { $set: { stylists } });
@@ -74,7 +72,6 @@ router.get('/getStylist/:stylistId', async (req, res) => {
     .findOne({ _id: req.params.stylistId })
     .populate({ path: 'services', model: 'Service' })
     .populate({ path: 'bookings', model: 'Booking' });
-  console.log('found: ', foundStylist);
   // return error if not found
   if (!foundStylist) {
     return res.status(400).send({ error: true, message: 'Stylist not found' });

@@ -12,7 +12,6 @@ const Services = () => {
     const newPrice = parseFloat(price.toString());
     return newPrice.toFixed(2);
   };
-  const showScrollIcon = services.length * 50 > 400;
   return stylist ? (
     <div id="services_and_prices_container">
       <div className="services_box">
@@ -31,7 +30,6 @@ const Services = () => {
           ))}
         </div>
       </div>
-      {showScrollIcon ? <div className="scroll_indicator"><p>scroll</p></div> : null}
     </div>
   ) : null;
 };

@@ -48,9 +48,15 @@ router.post('/newBooking', async (req, res) => {
   if (category !== type) {
     return res.status(400).send({ error: true, message: 'Type/Category mismatch for services' });
   }
+  const dateCreated = new Date();
   // create new booking using date passed in, and assigning stylist & client
   const booking = new Booking({
-    date: formattedDate, stylist: foundStylist._id, client: foundClient._id, time, service: foundService._id,
+    date: formattedDate,
+    stylist: foundStylist._id,
+    client: foundClient._id,
+    time,
+    service: foundService._id,
+    dateCreated,
   });
   // save booking
   const savedBooking = await booking.save();
@@ -74,7 +80,6 @@ router.get('/stylists/:stylistId', async (req, res) => {
   }
   const { bookings } = foundStylist;
   const bookingObjects = await Booking.find({ _id: { $in: bookings } });
-  console.log('BO', bookingObjects);
   return res.status(200).send({ bookings: bookingObjects });
 });
 
@@ -113,6 +118,19 @@ router.post('/cancelBooking', async (req, res) => {
   await Booking.deleteOne({ _id: bookingId });
   // update response
   return res.status(200).send({ message: 'Booking removed' });
+});
+
+router.get('/bookingsCreatedThisMonth/:month', async (req, res) => {
+  let bookingsForMonth = await Booking.find();
+  bookingsForMonth = bookingsForMonth.filter((booking) => {
+    const date = new Date(booking.dateCreated);
+    return date.getMonth().toString() === req.params.month;
+  });
+  console.log(bookingsForMonth);
+  return res.send({ bookings: bookingsForMonth });
+  // bookingsForMonth = bookingsForMonth.filter((booking) => {
+  //
+  // })
 });
 
 module.exports = router;

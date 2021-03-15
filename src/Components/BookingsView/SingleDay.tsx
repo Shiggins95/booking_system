@@ -19,7 +19,6 @@ const SingleDay = ({ date, display }: SingleDayProps) => {
   );
   const bookings: Booking[] = availabilityState.bookings ? availabilityState.bookings : [];
   const currentDateBookings = bookings.filter((booking) => {
-    // debugger;
     const thisDate = new Date(date.date);
     const compareDate = new Date(booking.date);
     return thisDate.getDate() === compareDate.getDate()

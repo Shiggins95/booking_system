@@ -3,17 +3,18 @@ import { useSpring, animated } from 'react-spring';
 
 interface SuccessfulPaymentProps {
     display: boolean;
+    emailError: boolean;
 }
 
-const SuccessfulPayment = ({ display }: SuccessfulPaymentProps) => {
+const SuccessfulPayment = ({ display, emailError }: SuccessfulPaymentProps) => {
   const props = useSpring({
-    opacity: display ? 1 : 0,
-    top: display ? 0 : -50,
+    opacity: display || emailError ? 1 : 0,
+    top: display || emailError ? 0 : -50,
   });
   useEffect(() => {
     setTimeout(() => {
-      // window.location.reload();
-    }, 5000);
+      window.location.reload();
+    }, 3000);
   }, []);
   return (
     <animated.div
@@ -22,19 +23,19 @@ const SuccessfulPayment = ({ display }: SuccessfulPaymentProps) => {
         ...props, width: '100%', height: 50, position: 'absolute',
       }}
     >
-      <p>
-        Payment succeeded, see the result in your
-        {' '}
-        <a
-          href="https://dashboard.stripe.com/test/payments"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Stripe dashboard.
-        </a>
-        {' '}
-        Please wait for the page to refresh...
-      </p>
+      {emailError && !display ? (
+        <p>
+          Payment succeeded and bookings created however, an email could not be sent this time due to usage limit
+          <br />
+          Please wait for the page to refresh to continue booking
+        </p>
+      ) : (
+        <p>
+          Payment succeeded. An email will be sent shortly to the client with confirmation of the booking details
+          <br />
+          Please wait for the page to refresh...
+        </p>
+      )}
     </animated.div>
   );
 };
