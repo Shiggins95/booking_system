@@ -3,25 +3,28 @@ import React, { useEffect, useState } from 'react';
 import {
   CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe,
 } from '@stripe/react-stripe-js';
+import emailJs, { init } from 'emailjs-com';
 import {
   StripeCardCvcElementChangeEvent,
   StripeCardExpiryElementChangeEvent, StripeCardNumberElementChangeEvent,
 } from '@stripe/stripe-js';
 import { useDispatch, useSelector } from 'react-redux';
-import { Simulate } from 'react-dom/test-utils';
 import SuccessfulPayment from './SuccessfulPayment';
 import { ReducerState } from '../../Redux/reducers';
 import { ConfirmationFormState } from '../../Redux/reducers/ConfirmationFormReducer';
 import { get, post } from '../../Helpers/Requests';
 import ErrorModal from '../Modals/ErrorModal';
 import { _setModalsDisplay } from '../../Redux/actions';
+import { AvailabilityReducerState } from '../../Redux/reducers/AvailabilityReducer';
+import { _formatDate } from '../../Helpers/Date';
 
 interface CheckoutFormProps {
   back: () => void;
 }
-
+init('user_NZ9AngoKPS2Lb7NFOpI8I');
 const CheckoutForm = ({ back }: CheckoutFormProps) => {
   const { service, name, email } = useSelector((state: ReducerState):ConfirmationFormState => state.confirmForm);
+  const { stylist, selectedDate } = useSelector((state: ReducerState):AvailabilityReducerState => state.availability);
   const stripe = useStripe();
   const elements = useElements();
   const [succeeded, setSucceeded] = useState<boolean>(false);
@@ -31,22 +34,22 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
   const [clientSecret, setClientSecret] = useState<string>('');
   const [ready, setReady] = useState<boolean>(false);
   const [intentId, setIntentId] = useState<string>('');
+  const [emailError, setEmailError] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!ready) {
-      return;
-    }
     const url = 'payments/create_payment_intent';
-    post({
-      url,
-      body: { items: [{ id: service }], email },
-    }).then((data) => {
-      setClientSecret(data.clientSecret);
-      setIntentId(data.intentId);
-      setReady(false);
-    });
-  }, [ready]);
+    if (!ready) {
+      post({
+        url,
+        body: { items: [{ id: service }], email },
+      }).then((data) => {
+        setClientSecret(data.clientSecret);
+        setIntentId(data.intentId);
+      });
+      setReady(true);
+    }
+  }, []);
 
   // eslint-disable-next-line max-len
   const handleChange = async (event: StripeCardNumberElementChangeEvent|StripeCardCvcElementChangeEvent|StripeCardExpiryElementChangeEvent) => {
@@ -61,8 +64,10 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
     const existingClient = await get({ url: `clients/getClient/${email}` });
     // if client exists, set stripe id - else create client and set stripe id
     let stripeId = '';
+    let clientId = '';
     if (!existingClient.error) {
       stripeId = existingClient.stripeId;
+      clientId = existingClient.client?._id;
     } else {
       const newClient = await post({
         url: 'clients/newClient',
@@ -72,6 +77,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
         },
       });
       stripeId = newClient.stripeId;
+      clientId = newClient.client?._id;
     }
 
     // update payment intent with stripe id as this wasn't available in the use effect
@@ -108,6 +114,40 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
       // if successful complete the journey and set succeeded to true to show banner
       const id = payload.paymentIntent ? payload.paymentIntent.id : '';
       setError('');
+      const body = {
+        clientId,
+        stylistId: stylist?._id,
+        date: selectedDate,
+        serviceId: service,
+      };
+      const newBooking = await post({
+        url: 'bookings/newBooking',
+        body,
+      });
+      if (newBooking.error) {
+        setError(`Failed to create Booking: ${newBooking.message}`);
+        setProcessing(false);
+        return;
+      }
+      if (selectedDate) {
+        // check to make sure I dont go over free plan of email service used (since demo account, I haven't integrated
+        // any actual email service, just using front-end library
+        const bookingsCreatedThisMonth = await get({
+          url: `bookings/bookingsCreatedThisMonth/${new Date().getMonth()}`,
+        });
+        if (bookingsCreatedThisMonth.bookings?.length >= 125) {
+          setEmailError(true);
+          setProcessing(false);
+          return;
+        }
+        const emailBody = `Thank you for your booking.\nWe will see you on ${_formatDate({ date: selectedDate })}!`;
+        await emailJs.send('gmail', 'template_one', {
+          email_body: emailBody,
+          subject: 'Booking Confirmation @ Shigs Salon',
+          from_email: 'stephen.higgins1995@gmail.com',
+          recipient_email: email,
+        });
+      }
       setProcessing(false);
       setSucceeded(true);
     }
@@ -155,7 +195,7 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
             onChange={handleChange}
             onReady={(element) => {
               element.focus();
-              setReady(true);
+              // setReady(true);
             }}
           />
         </div>
@@ -181,8 +221,12 @@ const CheckoutForm = ({ back }: CheckoutFormProps) => {
         <button type="button" onClick={back}>Back</button>
         <button type="button" onClick={handleSubmit}>Submit</button>
       </div>
-      <ErrorModal message={errorOccurred} type="payment" display={errorOccurred !== ''} />
-      {succeeded && <SuccessfulPayment display={succeeded} />}
+      <ErrorModal message={errorOccurred} display={errorOccurred !== '' && !emailError} />
+      {
+        (succeeded || emailError) && (
+        <SuccessfulPayment display={succeeded} emailError={emailError} />
+        )
+}
     </form>
   );
 };

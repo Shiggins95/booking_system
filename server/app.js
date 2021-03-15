@@ -23,23 +23,15 @@ mongoose.connect(
     }
   },
 );
-
-// app.use(express.static(path.join(__dirname, '..', 'build')));
-// app.get('/', (req, res) => {
-//   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-// });
-// app.use((req, res, next) => {
-//   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-// });
 app.use(cors());
 app.use(verifyToken);
 app.use(express.json());
-app.use('/bookings', bookingsRouter);
-app.use('/token', tokensRouter);
-app.use('/stylists', usersRouter);
-app.use('/clients', clientsRouter);
-app.use('/services', servicesRouter);
-app.use('/payments', paymentsRouter);
+app.use('/api/bookings', bookingsRouter);
+app.use('/api/token', tokensRouter);
+app.use('/api/stylists', usersRouter);
+app.use('/api/clients', clientsRouter);
+app.use('/api/services', servicesRouter);
+app.use('/api/payments', paymentsRouter);
 app.get('/*', (req, res) => {
   res.status(404).send({ error: true, message: 'NOT_FOUND' });
 });

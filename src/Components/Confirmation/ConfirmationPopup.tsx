@@ -120,7 +120,7 @@ const ConfirmationPopup = () => {
             style={{ ...props }}
           >
             {React.createElement(dates[index.current], { next, back })}
-            <ErrorModal message={errorMessage} type="validation" display={errorMessage !== ''} />
+            <ErrorModal message={errorMessage} display={errorMessage !== ''} />
           </animated.div>
         ))}
       </div>

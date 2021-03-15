@@ -28,10 +28,8 @@ router.post('/newService', async (req, res) => {
 
 router.get('/service/:serviceId', async (req, res) => {
   const { serviceId } = req.params;
-  console.log('here 1');
   if (!serviceId) return res.status(400).send({ error: true, message: 'No service id provided' });
   const foundService = await Service.findOne({ _id: serviceId });
-  console.log('here 2');
   if (!foundService) return res.status(400).send({ error: true, message: 'No service found for that id' });
   return res.status(200).send(foundService);
 });

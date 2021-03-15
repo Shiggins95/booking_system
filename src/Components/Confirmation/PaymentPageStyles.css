@@ -21,6 +21,9 @@
   justify-content: center;
   align-items: center;
 }
+#payment_page_container #payment_page .success_container p {
+  text-align: center;
+}
 #payment_page_container #payment_page .success_container a {
   color: #ffa6ca;
 }

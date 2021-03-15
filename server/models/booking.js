@@ -24,6 +24,10 @@ const bookingSchema = mongoose.Schema({
     ref: 'Service',
     required: true,
   },
+  dateCreated: {
+    type: Date,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Booking', bookingSchema);

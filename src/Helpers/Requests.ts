@@ -24,21 +24,21 @@ export const post = async (params: RequestParams) => {
     return { error: true };
   }
 
-  const data = await fetch(`http://localhost:8080/${url}`, {
+  const data = await fetch(`https://reactmap.stephen-higgins.co.uk/api/${url}`, {
     method: 'POST',
     headers: generateHeaders(),
     body: JSON.stringify(body),
   });
   const parsedData = await data.json();
-  console.log('POST REQUEST RESPONSE: ', parsedData);
+  // console.log('POST REQUEST RESPONSE: ', parsedData);
   return parsedData;
 };
 
 export const get = async ({ url }:RequestParams) => {
-  const data = await fetch(`http://localhost:8080/${url}`, {
+  const data = await fetch(`https://reactmap.stephen-higgins.co.uk/api/${url}`, {
     headers: generateHeaders(),
   });
   const parsedData = await data.json();
-  console.log('GET REQUEST RESPONSE: ', parsedData);
+  // console.log('GET REQUEST RESPONSE: ', parsedData);
   return parsedData;
 };
