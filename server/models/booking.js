@@ -5,10 +5,28 @@ const bookingSchema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  user: {
+  time: {
+    type: String,
+    required: true,
+  },
+  stylist: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Stylist',
     required: false,
+  },
+  client: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Client',
+    required: false,
+  },
+  service: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Service',
+    required: true,
+  },
+  dateCreated: {
+    type: Date,
+    required: true,
   },
 });
 

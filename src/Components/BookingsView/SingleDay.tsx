@@ -4,7 +4,7 @@ import { AvailabilityReducerState, Booking, DateData } from '../../Redux/reducer
 import { _getDayOfWeek } from '../../Helpers/Date';
 import './SingleDayStyles.css';
 import { ReducerState } from '../../Redux/reducers';
-import { _setAvailabilitySelectedDate } from '../../Redux/actions';
+import { _setAvailabilityDisplay, _setAvailabilitySelectedDate } from '../../Redux/actions';
 
 interface SingleDayProps {
     date: DateData;
@@ -19,7 +19,6 @@ const SingleDay = ({ date, display }: SingleDayProps) => {
   );
   const bookings: Booking[] = availabilityState.bookings ? availabilityState.bookings : [];
   const currentDateBookings = bookings.filter((booking) => {
-    // debugger;
     const thisDate = new Date(date.date);
     const compareDate = new Date(booking.date);
     return thisDate.getDate() === compareDate.getDate()
@@ -33,6 +32,7 @@ const SingleDay = ({ date, display }: SingleDayProps) => {
     const dateToUse = new Date(selectedDate);
     dateToUse.setHours(slot);
     dispatch(_setAvailabilitySelectedDate({ date: dateToUse }));
+    dispatch(_setAvailabilityDisplay({ display: true, direction: 'left', index: 0 }));
   };
   return display ? (
     <div className="single_day">

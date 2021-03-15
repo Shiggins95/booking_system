@@ -14,8 +14,8 @@
 }
 #confirmation_popup_container .confirmation_box {
   position: relative;
-  width: 70vw;
-  height: 80vh;
+  width: 50vw;
+  height: 50vh;
   background: #7affd4;
   display: flex;
   flex-direction: column;

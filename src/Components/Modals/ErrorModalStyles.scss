@@ -1,0 +1,12 @@
+@import "../../StyleDefaults/variables";
+@import "../../StyleDefaults/mixins";
+
+.error_container {
+  background: $secondary_color;
+  color: $primary_color;
+  font-weight: 500;
+  @include flexCenterRow;
+  a {
+    color: $secondary_color;
+  }
+}
