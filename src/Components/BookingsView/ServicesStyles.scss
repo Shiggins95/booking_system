@@ -1,0 +1,48 @@
+@import "../../StyleDefaults/mixins";
+@import "../../StyleDefaults/variables";
+
+#services_and_prices_container {
+  margin-top: 50px;
+  width: 100%;
+  padding-bottom: 50px;
+  overflow: scroll;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 5vw 5vw 10fr 5vw 5vw;
+  position: relative;
+  .scroll_indicator{
+
+  }
+  .services_box{
+    min-height: 250px;
+    max-height: 400px;
+    position: relative;
+    background: $fourth_color;
+    width: 100%;
+    height: 100%;
+    grid-column: 3/4;
+    color: $secondary_color;
+    overflow: scroll;
+    @include flexCenterCol;
+    .title {
+      width: 100%;
+      height: 75px;
+      @include flexCenterRow;
+    }
+    .price_list{
+      width: 50%;
+      min-height: calc(100% - 75px);
+      display: grid;
+      justify-items: center;
+      .service {
+        padding: 5px;
+        width: 75%;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px dotted $secondary_color;
+      }
+    }
+  }
+}

@@ -18,18 +18,19 @@
     text-decoration: none;
     padding: 10px;
     @include flexCenterRow;
+    //width: 100%;
   }
   div {
     @include flexCenterRow;
     justify-content: space-evenly;
     height: 5vh;
-    width: 100%;
+    width: 90%;
   }
   .left {
     grid-column: 1 / 6;
   }
   .right {
-    grid-column: 10 / 11;
+    grid-column: 9 / 11;
   }
   .selected {
     border-bottom: 2px solid $secondary_color;

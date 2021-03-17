@@ -40,9 +40,9 @@
   transform: translateY(1px);
 }
 .single_day .time_slots .booked {
-  background: #7affd4;
-  color: #7affd4;
-  border-color: #cbffee;
+  background: #ffa6ca;
+  color: #ffa6ca;
+  border-color: #7affd4;
   font-weight: normal;
 }
 .single_day .time_slots .booked:hover {
@@ -50,6 +50,7 @@
 }
 .single_day .time_slots .booked:active {
   transform: translateY(0);
+  outline-color: #7affd4;
 }
 .single_day .time_slots .booked:focus {
   outline: none;

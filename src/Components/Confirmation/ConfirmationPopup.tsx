@@ -1,12 +1,23 @@
 /* eslint-disable no-unused-vars, max-len, react/destructuring-assignment */
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { animated, useTransition } from 'react-spring';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Simulate } from 'react-dom/test-utils';
 import { ReducerState } from '../../Redux/reducers';
 import './ConfirmationPopupStyles.css';
 import ConfirmationPage from './ConfirmationPage';
-import SingleWeek from '../BookingsView/SingleWeek';
 import PaymentPage from './PaymentPage';
+import {
+  _resetConfirmationFormValue,
+  _setAvailabilityDisplay,
+  _setAvailabilitySelectedDate,
+  _setModalsDisplay,
+} from '../../Redux/actions';
+import ServiceSelect from './ServiceSelect';
+import { ConfirmationFormState } from '../../Redux/reducers/ConfirmationFormReducer';
+import ErrorModal from '../Modals/ErrorModal';
 
 interface StateProps {
     index: number,
@@ -19,59 +30,97 @@ export interface PageProps {
 }
 
 const ConfirmationPopup = () => {
-  const { selectedDate } = useSelector((state: ReducerState) => state.availability);
-  const [state, setState] = useState<StateProps>({
-    index: 0,
-    direction: 'left',
-  });
-
-  const { index, direction } = state;
-  const transitions = useTransition(index, null, {
-    from: { transform: direction === 'left' ? 'translate3d(100vw, 0 ,0)' : 'translate3d(-100vw, 0 ,0)' },
+  const { display } = useSelector((state: ReducerState) => state.confirmation);
+  const confirmationForm = useSelector((state: ReducerState):ConfirmationFormState => state.confirmForm);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const index = useRef(0);
+  const direction = useRef('left');
+  const dispatch = useDispatch();
+  const transitions = useTransition(index.current, null, {
+    from: { transform: direction.current === 'left' ? 'translate3d(100vw, 0 ,0)' : 'translate3d(-100vw, 0 ,0)' },
     enter: { transform: 'translate3d(0, 0, 0)' },
-    leave: { transform: direction === 'left' ? 'translate3d(-100vw, 0, 0)' : 'translate3d(100vw, 0, 0)' },
+    leave: { transform: direction.current === 'left' ? 'translate3d(-100vw, 0, 0)' : 'translate3d(100vw, 0, 0)' },
   });
 
-  const dates = [ConfirmationPage, PaymentPage];
+  useEffect(() => () => {
+    index.current = 0;
+  }, []);
+
+  useEffect(() => {
+    if (errorMessage !== '') {
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 2000);
+    }
+  }, [errorMessage]);
+
+  const dates = [ServiceSelect, ConfirmationPage, PaymentPage];
 
   const next = () => {
-    if (index === Object.keys(dates).length - 1) {
+    if (index.current === Object.keys(dates).length - 1) {
       return;
     }
+    const indexMapping = [
+      ['service'],
+      ['name', 'email'],
+    ];
     try {
-      setState({
-        index: index + 1,
-        direction: 'left',
+      const missingFields: string[] = [];
+      let canProceed = true;
+      indexMapping[index.current].forEach((field) => {
+        if (!confirmationForm[field]) {
+          canProceed = false;
+          missingFields.push(`"${field}"`);
+        }
       });
+      if (!canProceed) {
+        // TODO: custom error popup message box - create custom error popup
+        // alert(`Missing required fields:\n ${missingFields.join('\n')}`);
+        setErrorMessage(`Missing required fields:\n ${missingFields.join(', ')}`);
+        // dispatch(_setModalsDisplay({ type: 'validation', display: true }));
+        return;
+      }
+      index.current += 1;
+      direction.current = 'left';
+      dispatch(_setAvailabilityDisplay({ display: true }));
     } catch (e) {
-      console.log('error: ', e);
+      console.error('error: ', e);
     }
   };
 
   const back = () => {
-    if (index === 0) {
+    if (index.current === 0) {
       return;
     }
+    index.current -= 1;
+    direction.current = 'right';
     try {
-      setState({
-        index: index - 1,
-        direction: 'right',
-      });
+      dispatch(_setAvailabilityDisplay({ display: true }));
     } catch (e) {
-      console.log('error: ', e);
+      console.error('error: ', e);
     }
   };
 
-  return selectedDate === null ? null : (
+  const close = () => {
+    index.current = 0;
+    dispatch(_resetConfirmationFormValue());
+    dispatch(_setAvailabilityDisplay({ display: false }));
+  };
+
+  return !display ? null : (
     <div id="confirmation_popup_container">
       <div className="confirmation_box">
+        <div className="close_button">
+          <FontAwesomeIcon icon={faTimes} onClick={() => close()} />
+        </div>
         {transitions.map(({ item, props }) => (
           <animated.div
             className="animated_section"
             key={item}
             style={{ ...props }}
           >
-            {React.createElement(dates[index], { next, back })}
+            {React.createElement(dates[index.current], { next, back })}
+            <ErrorModal message={errorMessage} display={errorMessage !== ''} />
           </animated.div>
         ))}
       </div>

@@ -1,0 +1,62 @@
+@import "../../StyleDefaults/_mixins";
+@import "../../StyleDefaults/_variables";
+
+#stylist_select {
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  //background: $secondary_color;
+  grid-gap: 10px;
+  margin-bottom: 20px;
+  .ReactCollapse--collapse {
+    transition: height 250ms;
+  }
+  .ReactCollapse--content{
+    width: 100vw;
+    @include flexCenterRow;
+    justify-content: flex-start;
+    padding-left: 100px;
+  }
+  .open_button {
+    padding: 20px 0 0 0;
+    width: 100%;
+    height: 50px;
+    @include flexCenterRow;
+    button {
+      color: $secondary_color;
+      font-weight: 900;
+      letter-spacing: 2px;
+      width: 150px;
+      height: 40px;
+      border: 2px solid $secondary_color;
+      background: $fourth_color;
+      &:hover {
+        cursor: pointer;
+      }
+      &:focus, &:active {
+        outline-color: $fourth_color;
+      }
+    }
+  }
+  .content_expandable{
+    background: red;
+  }
+  .content {
+    padding: 20px 0;
+    margin: 0 50px;
+    .header {
+      height: 100%;
+      width: 100%;
+      margin-bottom: 10px;
+      h2 {
+        width: 300px;
+        color: $secondary_color;
+        margin: 0;
+        border-bottom: 2px solid $secondary_color;
+      }
+    }
+    .select_input_container{
+      border: 2px solid $secondary_color;
+    }
+  }
+}

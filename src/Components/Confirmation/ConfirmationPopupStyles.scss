@@ -11,9 +11,26 @@
   background: rgba(0,0,0,0.5);
   z-index: 10;
   .confirmation_box{
-    width: 70vw;
-    height: 80vh;
+    position: relative;
+    width: 50vw;
+    height: 50vh;
     background: $primary_color;
     @include flexCenterCol;
+    overflow: hidden;
+    .close_button{
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      transform: scale(2);
+      color: $secondary_color;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .animated_section{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      @include flexCenterCol;
+    }
   }
 }

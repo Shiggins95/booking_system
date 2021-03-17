@@ -26,6 +26,7 @@
       font-size: 2em;
       @include flexCenterCol;
       color: $primary_color;
+      width: 450px;
       font-weight: 700;
       background: $secondary_color;
       &:hover{

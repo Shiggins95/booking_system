@@ -13,9 +13,29 @@
   z-index: 10;
 }
 #confirmation_popup_container .confirmation_box {
-  width: 70vw;
-  height: 80vh;
+  position: relative;
+  width: 50vw;
+  height: 50vh;
   background: #7affd4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#confirmation_popup_container .confirmation_box .close_button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  transform: scale(2);
+  color: #ffa6ca;
+  cursor: pointer;
+  z-index: 10;
+}
+#confirmation_popup_container .confirmation_box .animated_section {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,12 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
 .single_week_container {
   grid-gap: 20px;
-  padding: 1vw 6vw;
-  width: 100%;
+  padding: 10px 6vw;
   height: 100%;
-  min-width: 1000px;
+  width: 100%;
   display: grid;
-  grid-template-rows: 1fr 5fr;
+  position: relative;
+  top: 0;
+  left: 0;
 }
 .single_week_container .title {
   color: #ffa6ca;
@@ -18,6 +19,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 .single_week_container .days_of_week {
   display: grid;
