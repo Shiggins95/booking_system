@@ -18,7 +18,7 @@ const BeautyBooking = ({ refProp }:BeautyBookingProps) => {
           BEAUTY THERAPY
         </h1>
         <h2>SELECT FROM AVAILABILITY CALENDAR</h2>
-        <Link onClick={handleClick} to="/availability">BOOK NOW</Link>
+        <Link onClick={handleClick} to="/bookingsapp/availability">BOOK NOW</Link>
       </div>
       <div className="right" />
     </div>
